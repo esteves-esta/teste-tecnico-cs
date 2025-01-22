@@ -1,13 +1,12 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
+  <div class="form">
+    <h1>Novo projeto</h1>
   </div>
 </template>
 
 <style>
 @media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
+  .form {
     display: flex;
     align-items: center;
   }
