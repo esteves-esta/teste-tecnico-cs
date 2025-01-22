@@ -96,9 +96,10 @@
    --color-secondary: hsl(247 76 29%);
    --color-accent: hsl(36 100 63%);
 
-   --gap-l: 32px;
-   --gap-m: 16px;
-   --gap-s: 8px;
+   --space-xl: 32px;
+   --space-l: 24px;
+   --space-m: 16px;
+   --space-s: 8px;
  }
 
  body {
@@ -130,7 +131,7 @@
  }
 
  p {
-   font-size: calc(22rem / 16);
+   /* font-size: calc(16rem / 16); */
    font-weight: 400;
  }
 
