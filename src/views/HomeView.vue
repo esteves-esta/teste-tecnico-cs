@@ -17,7 +17,7 @@ onMounted(() => {
 })
 
 function goToNewProject() {
-  router.push({ path: 'create' })
+  router.push({ name: 'new' })
 }
 </script>
 
