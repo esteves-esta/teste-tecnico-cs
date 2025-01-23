@@ -12,13 +12,15 @@ const props = withDefaults(defineProps<Props>(), {
   variant: 'filled',
 })
 
+const disabled = defineModel('disabled', { type: Boolean, required: false })
+
 const { variant, icon_right, icon_left } = props
 
 const size = computed(() => (variant === 'link' ? 16 : 24))
 </script>
 
 <template>
-  <button :class="[classes[variant], classes.button]">
+  <button :class="[classes[variant], classes.button, disabled && classes.disabled]">
     <Icon v-if="icon_right" :size="size" :name="icon_right" />
     <slot></slot>
     <Icon v-if="icon_left" :size="size" :name="icon_left" />
@@ -27,6 +29,7 @@ const size = computed(() => (variant === 'link' ? 16 : 24))
 
 <style module="classes">
 .button {
+  --button-color: var(--color-primary);
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -40,36 +43,38 @@ const size = computed(() => (variant === 'link' ? 16 : 24))
 }
 
 .filled {
-  background: var(--color-primary);
+  background: var(--button-color);
   color: var(--white);
   border: none;
-}
-@media (hover: hover) and (pointer: fine) {
-  .filled:hover {
-    background: var(--color-primary-dark);
-  }
 }
 
 .outline {
   background: transparent;
-  color: var(--color-primary);
+  color: var(--button-color);
   border: 1px solid;
-}
-@media (hover: hover) and (pointer: fine) {
-  .outline:hover {
-    color: var(--color-primary-dark);
-  }
 }
 
 .link {
   background: transparent;
-  color: var(--color-primary);
+  color: var(--button-color);
   border: none;
   padding: 0px;
 }
+
+.button.disabled {
+  --button-color: var(--color-primary-light);
+}
+
 @media (hover: hover) and (pointer: fine) {
-  .link:hover {
-    color: var(--color-primary-dark);
+  .link:hover,
+  .outline:hover,
+  .filled:hover {
+    --button-color: var(--color-primary-dark);
+  }
+
+  .button.disabled:hover {
+    --button-color: var(--color-primary-light);
+    cursor: default;
   }
 }
 </style>

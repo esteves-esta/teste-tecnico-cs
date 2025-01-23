@@ -1,43 +1,52 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 // import ProjectService from '@/shared/services/project.ts'
 import router from '@/router/index'
-import Button from '@/components/Button/Index.vue'
-import TextField from '@/components/TextField/Index.vue'
+import Button from '@/components/Button/Button.vue'
+import TextField from '@/components/TextField/TextField.vue'
 import { Project } from '@/shared/models/Project'
 import { isPast } from 'date-fns'
 import DateField from '@/components/DateField/Index.vue'
 
-const project = ref<Project>(new Project())
+class RequiredFields {
+  [name: string]: boolean
+  name = false
+  client = false
+  date_start = false
+  date_end = false
+}
+
+const project = reactive<Project>(new Project())
 const isEdit = ref()
-const hasTriedSubmitting = ref(false)
+const touchedFields = reactive<RequiredFields>(new RequiredFields())
 
 onMounted(() => {
   isEdit.value = router.currentRoute.value.name?.toString().includes('edit')
-  console.log(isEdit.value)
 })
 
 const validation = computed(() => {
-  if (hasTriedSubmitting.value)
-    return {
-      name: project.value.name.trim().indexOf(' ') === -1,
-      client: project.value.client.trim().length <= 0,
-      date_start: project.value.date_start && isPast(project.value.date_start),
-      date_end: project.value.date_end && isPast(project.value.date_end),
-    }
-
   return {
-    name: false,
-    client: false,
-    date_start: false,
-    date_end: false,
+    name: touchedFields.name && project.name.trim().indexOf(' ') === -1,
+    client: touchedFields.client && project.client.trim().length <= 0,
+    date_start: touchedFields.date_start && project.date_start && isPast(project.date_start),
+    date_end: touchedFields.date_end && project.date_end && isPast(project.date_end),
   }
 })
 
-function submit() {
-  alert('oi')
-  hasTriedSubmitting.value = true
+const disabledSubmit = computed(() => {
+  return (
+    project.name != '' &&
+    project.client != '' &&
+    project.date_start != null &&
+    project.date_end != null
+  )
+})
+
+function setFieldAsTouched(field: string) {
+  touchedFields[field] = true
 }
+
+function submit() {}
 
 function goBack() {
   router.push({ name: 'home' })
@@ -58,6 +67,7 @@ function goBack() {
           label="Nome do projeto"
           v-model:error="validation.name"
           errorMessage="Por favor, digite ao menos duas palavras"
+          @update:modelValue="() => setFieldAsTouched('name')"
         />
         <TextField
           v-model="project.client"
@@ -65,11 +75,16 @@ function goBack() {
           label="Cliente"
           v-model:error="validation.client"
           errorMessage="Por favor, digite ao menos uma palavra"
+          @update:modelValue="() => setFieldAsTouched('client')"
         />
         <div>
           <DateField />
+          <DateField />
         </div>
-        <Button type="submit" icon_right="CirclePlus">Salvar projeto</Button>
+
+        <Button :disabled="!disabledSubmit" type="submit" icon_right="CirclePlus">
+          Salvar projeto
+        </Button>
       </form>
     </section>
   </article>

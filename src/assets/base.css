@@ -92,6 +92,7 @@
    --color-error: hsl(0 100 38%);
    --color-border: hsl(0 0 86%);
    --color-primary: hsl(247 53 58%);
+   --color-primary-light: hsl(247 100 83%);
    --color-primary-dark: hsl(247 32 14%);
    --color-secondary: hsl(247 76 29%);
    --color-accent: hsl(36 100 63%);
