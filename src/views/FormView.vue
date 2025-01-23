@@ -5,8 +5,9 @@ import router from '@/router/index'
 import Button from '@/components/Button/Button.vue'
 import TextField from '@/components/TextField/TextField.vue'
 import { Project } from '@/shared/models/Project'
-import { isPast } from 'date-fns'
-import DateField from '@/components/DateField/Index.vue'
+import { isPast, isToday } from 'date-fns'
+import DateField from '@/components/DateField/DateField.vue'
+import { getLocalTimeZone } from '@internationalized/date'
 
 class RequiredFields {
   [name: string]: boolean
@@ -15,7 +16,7 @@ class RequiredFields {
   date_start = false
   date_end = false
 }
-
+const dateErrorMessage = 'Selecione uma data válida'
 const project = reactive<Project>(new Project())
 const isEdit = ref()
 const touchedFields = reactive<RequiredFields>(new RequiredFields())
@@ -28,8 +29,16 @@ const validation = computed(() => {
   return {
     name: touchedFields.name && project.name.trim().indexOf(' ') === -1,
     client: touchedFields.client && project.client.trim().length <= 0,
-    date_start: touchedFields.date_start && project.date_start && isPast(project.date_start),
-    date_end: touchedFields.date_end && project.date_end && isPast(project.date_end),
+    date_start:
+      touchedFields.date_start &&
+      project.date_start &&
+      isPast(project.date_start.toDate(getLocalTimeZone())) &&
+      !isToday(project.date_start.toDate(getLocalTimeZone())),
+    date_end:
+      touchedFields.date_end &&
+      project.date_end &&
+      isPast(project.date_end.toDate(getLocalTimeZone())) &&
+      !isToday(project.date_end.toDate(getLocalTimeZone())),
   }
 })
 
@@ -77,9 +86,25 @@ function goBack() {
           errorMessage="Por favor, digite ao menos uma palavra"
           @update:modelValue="() => setFieldAsTouched('client')"
         />
-        <div>
-          <DateField />
-          <DateField />
+        <div :class="classes.date_row">
+          <DateField
+            label="Data de Início"
+            v-model="project.date_start"
+            icon="Calendar1"
+            v-model:error="validation.date_start"
+            :errorMessage="dateErrorMessage"
+            :required="true"
+            @update:modelValue="() => setFieldAsTouched('date_start')"
+          />
+          <DateField
+            label="Data Final"
+            icon="CalendarCheck"
+            v-model="project.date_end"
+            v-model:error="validation.date_end"
+            :errorMessage="dateErrorMessage"
+            :required="true"
+            @update:modelValue="() => setFieldAsTouched('date_end')"
+          />
         </div>
 
         <Button :disabled="!disabledSubmit" type="submit" icon_right="CirclePlus">
@@ -108,6 +133,12 @@ function goBack() {
   width: 704px;
   display: flex;
   flex-direction: column;
+  gap: var(--space-l);
+}
+
+.date_row {
+  display: flex;
+  flex-direction: row;
   gap: var(--space-l);
 }
 </style>

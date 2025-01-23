@@ -12,7 +12,7 @@ const props = withDefaults(defineProps<Props>(), {
   variant: 'filled',
 })
 
-const disabled = defineModel('disabled', { type: Boolean, required: false })
+const disabled = defineModel<boolean>('disabled')
 
 const { variant, icon_right, icon_left } = props
 

@@ -3,6 +3,7 @@ import LocalStorageHandler from "@/shared/utils/LocalStorageHandler";
 import constants from "@/shared/utils/constants";
 import type { ProjectListRequest, ProjectListResponse, sort_types } from "@/shared/models/ProjectList";
 import type { Project } from "@/shared//models/Project";
+import { getLocalTimeZone, type DateValue } from '@internationalized/date';
 
 
 export default class ProjectHandler {
@@ -135,8 +136,8 @@ export default class ProjectHandler {
     if (sort === 'ending') {
       // Projetos próximos à data de finalização.
       return list.sort(function (a, b) {
-        const a_date = new Date(a.date_end as Date)
-        const b_date = new Date(b.date_end as Date)
+        const a_date = (a.date_end as DateValue).toDate(getLocalTimeZone())
+        const b_date = (b.date_end as DateValue).toDate(getLocalTimeZone())
         if (isAfter(a_date, b_date)) {
           return -1;
         }
@@ -150,8 +151,8 @@ export default class ProjectHandler {
       // Projetos iniciados mais recentemente.
 
       return list.sort(function (a, b) {
-        const a_date = new Date(a.date_end as Date)
-        const b_date = new Date(b.date_end as Date)
+        const a_date = (a.date_end as DateValue).toDate(getLocalTimeZone())
+        const b_date = (b.date_end as DateValue).toDate(getLocalTimeZone())
         if (isAfter(a_date, b_date)) {
           return -1;
         }

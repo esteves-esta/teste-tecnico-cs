@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useId } from 'radix-vue'
+import FieldLabel from '@/components/FieldLabel/FieldLabel.vue'
 
 const inputId = useId()
 
@@ -17,12 +18,8 @@ const { required, label, errorMessage } = props
 
 <template>
   <div :class="[classes.input_container, error && classes.error]">
-    <label :for="inputId"
-      >{{ label }}
-      <span>
-        {{ required && '(Obrigatório)' }}
-      </span>
-    </label>
+    <FieldLabel :required="required" :for="inputId">{{ label }} </FieldLabel>
+
     <input v-model="value" :required="required" :id="inputId" type="text" :class="classes.input" />
     <span v-if="error" :class="classes.error_help_text">
       {{ errorMessage }}
@@ -45,16 +42,7 @@ const { required, label, errorMessage } = props
   flex-direction: column;
   gap: 4px;
 }
-.input_container label {
-  font-size: calc(18rem / 16);
-  font-weight: 500;
-  color: var(--color-primary);
-  span {
-    font-weight: 400;
-    font-size: calc(14rem / 16);
-    color: var(--color-text);
-  }
-}
+
 .input {
   width: 100%;
   font-weight: 400;
