@@ -45,10 +45,13 @@ function selectFiles() {
   if (!inputRef.value) return
   inputRef.value.click()
 }
+
 const onChange = (e: unknown) => {
   files.value = e.target.files
   if (files.value.length === 0) return
+  
   const name = files.value[0].name
+
   if (name.includes('.png') || name.includes('.jpg')) {
     reader.readAsDataURL(files.value[0])
     error.value = false
@@ -57,6 +60,7 @@ const onChange = (e: unknown) => {
     value.value = undefined
   }
 }
+
 const clear = () => {
   files.value = new DataTransfer().files
   preview.value = ''

@@ -18,12 +18,12 @@ class RequiredFields {
   date_start = false
   date_end = false
 }
-const dateErrorMessage = 'Selecione uma data válida'
 const project = reactive<Project>(new Project())
 const isEdit = ref()
 const isLoading = ref(false)
 const isSubmitting = ref(false)
 const touchedFields = reactive<RequiredFields>(new RequiredFields())
+const dateErrorMessage = 'Selecione uma data válida'
 
 onMounted(() => {
   isLoading.value = true
@@ -32,13 +32,7 @@ onMounted(() => {
   if (isEdit.value) {
     try {
       const editObject = ProjectService.get(router.currentRoute.value.params.id as string)
-
-      project.id = editObject.id
-      project.client = editObject.client
-      project.name = editObject.name
-      project.date_end = formatToCalendarDate(editObject.date_end)
-      project.date_start = formatToCalendarDate(editObject.date_start)
-      project.cover_url = editObject.cover_url
+      mapProject(editObject)
     } finally {
       isLoading.value = false
     }
@@ -47,31 +41,52 @@ onMounted(() => {
   }
 })
 
+function mapProject(object: Project) {
+  project.id = object.id
+  project.client = object.client
+  project.name = object.name
+  project.date_end = formatToCalendarDate(object.date_end)
+  project.date_start = formatToCalendarDate(object.date_start)
+  project.cover_url = object.cover_url
+}
+
 const validation = computed(() => {
   const dateValidations = { date_start: false, date_end: false }
-  let date_start: Date | null = null
-  if (project.date_start) {
-    date_start = project.date_start.toDate(getLocalTimeZone())
-    dateValidations.date_start =
-      touchedFields.date_start && isPast(date_start) && !isToday(date_start)
-  }
 
-  if (project.date_end) {
-    const date_end = project.date_end.toDate(getLocalTimeZone())
-    const isDifferent = date_start ? isEqual(date_start, date_end) : false
-    const isBeforeStart = date_start ? isBefore(date_end, date_start) : false
-
-    dateValidations.date_end =
-      (touchedFields.date_end && isPast(date_end) && !isToday(date_end)) ||
-      isDifferent ||
-      isBeforeStart
-  }
+  dateValidations.date_start = validateStartDate()
+  dateValidations.date_end = validateEndDate()
   return {
     name: touchedFields.name && project.name.trim().indexOf(' ') === -1,
     client: touchedFields.client && project.client.trim().length <= 0,
     ...dateValidations,
   }
 })
+
+function validateStartDate() {
+  let date_start: Date | null = null
+  if (project.date_start) {
+    date_start = project.date_start.toDate(getLocalTimeZone())
+    return touchedFields.date_start && isPast(date_start) && !isToday(date_start)
+  }
+  return false
+}
+
+function validateEndDate() {
+  let date_start: Date | null = null
+  if (project.date_start) date_start = project.date_start.toDate(getLocalTimeZone())
+  if (project.date_end) {
+    const date_end = project.date_end.toDate(getLocalTimeZone())
+    const isDifferent = date_start ? isEqual(date_start, date_end) : false
+    const isBeforeStart = date_start ? isBefore(date_end, date_start) : false
+
+    return (
+      (touchedFields.date_end && isPast(date_end) && !isToday(date_end)) ||
+      isDifferent ||
+      isBeforeStart
+    )
+  }
+  return false
+}
 
 const disabledSubmit = computed(() => {
   const validations = Object.values(validation.value)
@@ -108,8 +123,7 @@ function edit() {
 
 function create() {
   try {
-    const t = ProjectService.create(project as Project)
-    console.log('oi', t)
+    ProjectService.create(project as Project)
     router.push({ name: 'home' })
   } catch (error) {
     console.error(error)

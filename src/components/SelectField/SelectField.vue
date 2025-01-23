@@ -17,7 +17,7 @@ const emit = defineEmits(['change'])
 function getDisplayedValue() {
   const selectedChild = options.find((child) => child.value === model.value)
 
-  return selectedChild.text
+  return selectedChild && selectedChild.text
 }
 </script>
 

@@ -9,7 +9,7 @@ function create(project: Project) {
   } catch (error) {
     alert("Houve um erro ao criar o projeto.")
     console.error(`Error on creating project: ${error}`)
-    // TODO TOAST
+
     throw error;
   }
 }
@@ -20,7 +20,7 @@ function edit(project: Project) {
   } catch (error) {
     alert("Houve um erro ao criar o projeto.")
     console.error(`Error on creating project: ${error}`)
-    // TODO TOAST
+
     throw error;
   }
 }
@@ -30,7 +30,7 @@ function get(id: string) {
   } catch (error) {
     alert("Houve um erro ao criar o projeto.")
     console.error(`Error on creating project: ${error}`)
-    // TODO TOAST
+
     throw error;
   }
 }
@@ -40,7 +40,7 @@ function list(request: ProjectListRequest): ProjectListResponse {
   } catch (error) {
     alert("Houve um erro ao criar o projeto.")
     console.error(`Error on creating project: ${error}`)
-    // TODO TOAST
+
     return { projects: [], total: 0 }
   }
 }
@@ -62,7 +62,7 @@ function remove(id: string) {
   } catch (error) {
     alert("Houve um erro ao criar o projeto.")
     console.error(`Error on creating project: ${error}`)
-    // TODO TOAST
+
     throw error;
   }
 }

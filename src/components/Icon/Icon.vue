@@ -6,12 +6,12 @@ interface Props {
   name: string
   size?: number
   color?: string
-  strokeWidth?: number
-  defaultClass?: string
+  stroke_width?: number
+  default_class?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  strokeWidth: 1.7,
+  stroke_width: 1.7,
   size: 16,
 })
 
@@ -23,7 +23,7 @@ const icon = computed(() => icons[props.name])
     :is="icon"
     :size="size"
     :color="color"
-    :stroke-width="strokeWidth"
-    :default-class="defaultClass"
+    :stroke-width="stroke_width"
+    :default-class="default_class"
   />
 </template>
