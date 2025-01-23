@@ -26,14 +26,12 @@ export default class ProjectHandler {
   static edit(project: Project) {
     try {
       const { list, projectIndex } = ProjectHandler.getListAndProject(project.id);
-
       if (projectIndex === null) return;
 
-      const newList = list.splice(projectIndex, 1)
+      list.splice(projectIndex, 1, project)
+
       LocalStorageHandler.setItem(constants.LOCAL_STORAGE_KEY,
-        [...newList,
-          project
-        ]
+        [...list]
       )
 
     } catch (error) {
@@ -87,10 +85,10 @@ export default class ProjectHandler {
       if (projectIndex === null) return;
       const project = list[projectIndex];
       project.isFavorite = true;
-      const newList = list.splice(projectIndex, 1, project)
+      list.splice(projectIndex, 1, project)
 
       LocalStorageHandler.setItem(constants.LOCAL_STORAGE_KEY, [
-        ...newList,
+        ...list,
       ])
 
     } catch (error) {
@@ -104,8 +102,8 @@ export default class ProjectHandler {
       const { list, projectIndex } = ProjectHandler.getListAndProject(id);
       if (projectIndex === null) return;
 
-      const newList = list.splice(projectIndex, 1)
-      LocalStorageHandler.setItem(constants.LOCAL_STORAGE_KEY, newList)
+      list.splice(projectIndex, 1)
+      LocalStorageHandler.setItem(constants.LOCAL_STORAGE_KEY, list)
 
     } catch (error) {
       alert("Houve um erro ao remover o projeto.")
@@ -122,7 +120,7 @@ export default class ProjectHandler {
 
       const itemIndex = list.findIndex(item => item.id === id);
       if (itemIndex < 0) return { list, projectIndex: null };
-      console.log(itemIndex)
+
       return { list, projectIndex: itemIndex }
 
     } catch (error) {

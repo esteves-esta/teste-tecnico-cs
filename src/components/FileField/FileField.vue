@@ -161,10 +161,9 @@ const clear = () => {
   border: none;
   color: var(--color-primary);
   padding: 0.5rem;
-  box-shadow: 5px 10px var(--black);
   cursor: pointer;
   border-radius: 100%;
   background-color: var(--white);
-  box-shadow: 0px 7px 4px 0px var(--black-alpha);
+  box-shadow: var(--box-shadow);
 }
 </style>

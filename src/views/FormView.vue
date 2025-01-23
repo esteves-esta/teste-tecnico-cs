@@ -8,7 +8,8 @@ import { Project } from '@/shared/models/Project'
 import { isPast, isToday, isEqual, isBefore } from 'date-fns'
 import DateField from '@/components/DateField/DateField.vue'
 import FileField from '@/components/FileField/FileField.vue'
-import { CalendarDate, getLocalTimeZone, type DateValue } from '@internationalized/date'
+import { getLocalTimeZone } from '@internationalized/date'
+import { formatToCalendarDate } from '@/shared/utils/DateFormat'
 
 class RequiredFields {
   [name: string]: boolean
@@ -21,6 +22,7 @@ const dateErrorMessage = 'Selecione uma data válida'
 const project = reactive<Project>(new Project())
 const isEdit = ref()
 const isLoading = ref(false)
+const isSubmitting = ref(false)
 const touchedFields = reactive<RequiredFields>(new RequiredFields())
 
 onMounted(() => {
@@ -30,12 +32,12 @@ onMounted(() => {
   if (isEdit.value) {
     try {
       const editObject = ProjectService.get(router.currentRoute.value.params.id as string)
+
+      project.id = editObject.id
       project.client = editObject.client
       project.name = editObject.name
-
       project.date_end = formatToCalendarDate(editObject.date_end)
       project.date_start = formatToCalendarDate(editObject.date_start)
-
       project.cover_url = editObject.cover_url
     } finally {
       isLoading.value = false
@@ -44,11 +46,6 @@ onMounted(() => {
     isLoading.value = false
   }
 })
-
-function formatToCalendarDate(date: DateValue | undefined) {
-  if (!date) return undefined
-  return new CalendarDate(date.year, date.month, date.day)
-}
 
 const validation = computed(() => {
   const dateValidations = { date_start: false, date_end: false }
@@ -63,7 +60,7 @@ const validation = computed(() => {
     const date_end = project.date_end.toDate(getLocalTimeZone())
     const isDifferent = date_start ? isEqual(date_start, date_end) : false
     const isBeforeStart = date_start ? isBefore(date_end, date_start) : false
-    console.log({ isBeforeStart })
+
     dateValidations.date_end =
       (touchedFields.date_end && isPast(date_end) && !isToday(date_end)) ||
       isDifferent ||
@@ -92,8 +89,13 @@ function setFieldAsTouched(field: string) {
 }
 
 function submit() {
-  if (isEdit.value) edit()
-  else create()
+  isSubmitting.value = true
+  try {
+    if (isEdit.value) edit()
+    else create()
+  } finally {
+    isSubmitting.value = false
+  }
 }
 
 function edit() {
@@ -166,7 +168,7 @@ function goBack() {
 
         <FileField label="Capa do projeto" v-model="project.cover_url" />
 
-        <Button :disabled="!disabledSubmit" type="submit" icon_right="CirclePlus">
+        <Button :disabled="!disabledSubmit || isSubmitting" type="submit" icon_right="CirclePlus">
           Salvar projeto
         </Button>
       </form>
