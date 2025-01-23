@@ -17,10 +17,10 @@ export default class ProjectHandler {
         ]
       )
     } catch (error) {
-
       console.error(`Error: ${error}`)
       throw error;
     }
+
   }
 
   static edit(project: Project) {

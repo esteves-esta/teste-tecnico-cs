@@ -90,12 +90,9 @@ function setFieldAsTouched(field: string) {
 
 function submit() {
   isSubmitting.value = true
-  try {
-    if (isEdit.value) edit()
-    else create()
-  } finally {
-    isSubmitting.value = false
-  }
+
+  if (isEdit.value) edit()
+  else create()
 }
 
 function edit() {
@@ -104,15 +101,20 @@ function edit() {
     router.push({ name: 'home' })
   } catch (error) {
     console.error(error)
+  } finally {
+    isSubmitting.value = false
   }
 }
 
 function create() {
   try {
-    ProjectService.create(project as Project)
+    const t = ProjectService.create(project as Project)
+    console.log('oi', t)
     router.push({ name: 'home' })
   } catch (error) {
     console.error(error)
+  } finally {
+    isSubmitting.value = false
   }
 }
 
@@ -188,7 +190,7 @@ function goBack() {
   justify-content: center;
   align-items: center;
   border: 1px solid var(--color-border);
-  padding: 52px 0px;
+  padding: 52px 20px;
   border-radius: var(--space-s);
 }
 .form form {

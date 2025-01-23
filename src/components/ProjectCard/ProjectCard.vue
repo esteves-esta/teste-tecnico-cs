@@ -7,6 +7,8 @@ import FavoriteToggle from '../FavoriteToggle/FavoriteToggle.vue'
 import DropDownMenu from '../DropDownMenu/DropDownMenu.vue'
 import ProjectService from '@/shared/services/project.ts'
 import router from '@/router'
+import AlertDialog from '../AlertDialog/AlertDialog.vue'
+import { ref } from 'vue'
 
 interface Props {
   project: Project
@@ -24,7 +26,7 @@ const menu = [
   {
     label: 'Remover',
     icon_name: 'Trash',
-    function: remove,
+    function: toogleRemoveDialog,
   },
 ]
 
@@ -41,10 +43,14 @@ function toogleFavorite() {
   }
 }
 
+const openRemoveConfirmationDialog = ref(false)
+
+function toogleRemoveDialog() {
+  openRemoveConfirmationDialog.value = true
+}
+
 function remove() {
   try {
-    // TODO
-    // DIALOG CONFIRM
     ProjectService.remove(project.id)
     emit('updated')
   } catch (error) {
@@ -83,6 +89,19 @@ function remove() {
       </ul>
     </div>
   </div>
+
+  <AlertDialog
+    icon="Trash"
+    v-model="openRemoveConfirmationDialog"
+    @confirm="remove"
+    @cancel="toogleRemoveDialog"
+  >
+    <template #title> Remover projeto </template>
+    <template #description> Essa ação removerá definitivamente o projeto: </template>
+    <template #name>
+      {{ project.name }}
+    </template>
+  </AlertDialog>
 </template>
 
 <style module="classes">
