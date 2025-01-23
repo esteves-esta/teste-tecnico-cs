@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref } from 'vue'
-// import ProjectService from '@/shared/services/project.ts'
+import ProjectService from '@/shared/services/project.ts'
 import router from '@/router/index'
 import Button from '@/components/Button/Button.vue'
 import TextField from '@/components/TextField/TextField.vue'
 import { Project } from '@/shared/models/Project'
-import { isPast, isToday } from 'date-fns'
+import { isPast, isToday, isEqual, isBefore } from 'date-fns'
 import DateField from '@/components/DateField/DateField.vue'
+import FileField from '@/components/FileField/Index.vue'
 import { getLocalTimeZone } from '@internationalized/date'
 
 class RequiredFields {
@@ -26,19 +27,28 @@ onMounted(() => {
 })
 
 const validation = computed(() => {
+  const dateValidations = { date_start: false, date_end: false }
+  let date_start: Date | null = null
+  if (project.date_start) {
+    date_start = project.date_start.toDate(getLocalTimeZone())
+    dateValidations.date_start =
+      touchedFields.date_start && isPast(date_start) && !isToday(date_start)
+  }
+
+  if (project.date_end) {
+    const date_end = project.date_end.toDate(getLocalTimeZone())
+    const isDifferent = date_start ? isEqual(date_start, date_end) : false
+    const isBeforeStart = date_start ? isBefore(date_end, date_start) : false
+    console.log({ isBeforeStart })
+    dateValidations.date_end =
+      (touchedFields.date_end && isPast(date_end) && !isToday(date_end)) ||
+      isDifferent ||
+      isBeforeStart
+  }
   return {
     name: touchedFields.name && project.name.trim().indexOf(' ') === -1,
     client: touchedFields.client && project.client.trim().length <= 0,
-    date_start:
-      touchedFields.date_start &&
-      project.date_start &&
-      isPast(project.date_start.toDate(getLocalTimeZone())) &&
-      !isToday(project.date_start.toDate(getLocalTimeZone())),
-    date_end:
-      touchedFields.date_end &&
-      project.date_end &&
-      isPast(project.date_end.toDate(getLocalTimeZone())) &&
-      !isToday(project.date_end.toDate(getLocalTimeZone())),
+    ...dateValidations,
   }
 })
 
@@ -55,7 +65,14 @@ function setFieldAsTouched(field: string) {
   touchedFields[field] = true
 }
 
-function submit() {}
+function submit() {
+  try {
+    ProjectService.create(project as Project)
+    router.push({ name: 'home' })
+  } catch (error) {
+    console.error(error)
+  }
+}
 
 function goBack() {
   router.push({ name: 'home' })
@@ -106,6 +123,8 @@ function goBack() {
             @update:modelValue="() => setFieldAsTouched('date_end')"
           />
         </div>
+
+        <FileField label="Capa do projeto" v-model="project.cover_url" />
 
         <Button :disabled="!disabledSubmit" type="submit" icon_right="CirclePlus">
           Salvar projeto

@@ -9,7 +9,7 @@ import { getLocalTimeZone, type DateValue } from '@internationalized/date';
 export default class ProjectHandler {
   static create(project: Project) {
     try {
-      const list = LocalStorageHandler.getItem(constants.LOCAL_STORAGE_KEY)
+      const list = LocalStorageHandler.getItem(constants.LOCAL_STORAGE_KEY) || []
 
       LocalStorageHandler.setItem(constants.LOCAL_STORAGE_KEY,
         [...list,
