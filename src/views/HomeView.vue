@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import type { ProjectListResponse } from '@/shared/models/ProjectList'
+import type { ProjectListResponse, sort_types } from '@/shared/models/ProjectList'
 import ProjectService from '@/shared/services/project.ts'
 import router from '@/router/index'
 import Button from '@/components/Button/Button.vue'
 import ProjectCard from '@/components/ProjectCard/ProjectCard.vue'
+import SelectField from '@/components/SelectField/SelectField.vue'
+import Switch from '@/components/Switch/Switch.vue'
 
 const projectsList = ref<ProjectListResponse>({
   projects: [],
@@ -17,14 +19,22 @@ onMounted(() => {
 
 function refreshPage() {
   projectsList.value = ProjectService.list({
-    favoritesOnly: false,
-    sort: 'default',
+    favoritesOnly: onlyFavorites.value,
+    sort: sort.value,
   })
 }
 
 function goToNewProject() {
   router.push({ name: 'new' })
 }
+
+const onlyFavorites = ref(false)
+const sort = ref<sort_types>('default')
+const sortingOptions: { text: string; value: sort_types }[] = [
+  { text: 'Ordem alfabética', value: 'default' },
+  { text: 'Iniciados mais recentes', value: 'recent' },
+  { text: 'Prazo mais próximo', value: 'ending' },
+]
 </script>
 
 <template>
@@ -35,6 +45,17 @@ function goToNewProject() {
         <span>({{ projectsList.total }})</span>
       </div>
       <div :class="classes.nav_actions">
+        <Switch
+          v-model="onlyFavorites"
+          label="Apenas Favoritos"
+          @update:model-value="refreshPage"
+        />
+        <SelectField
+          label="Ordenação"
+          v-model="sort"
+          :options="sortingOptions"
+          @update:model-value="refreshPage"
+        />
         <Button @click="goToNewProject">Novo projeto</Button>
       </div>
     </div>
@@ -73,6 +94,12 @@ function goToNewProject() {
   display: flex;
   justify-content: space-between;
   margin-bottom: var(--space-m);
+}
+
+.nav_actions {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-xl);
 }
 
 .nav_title {

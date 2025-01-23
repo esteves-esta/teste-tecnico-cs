@@ -1,10 +1,8 @@
-import { isAfter } from 'date-fns';
 import LocalStorageHandler from "@/shared/utils/LocalStorageHandler";
 import constants from "@/shared/utils/constants";
-import type { ProjectListRequest, ProjectListResponse, sort_types } from "@/shared/models/ProjectList";
+import type { ProjectInfo, ProjectListRequest, ProjectListResponse, sort_types } from "@/shared/models/ProjectList";
 import type { Project } from "@/shared//models/Project";
-import { getLocalTimeZone, type DateValue } from '@internationalized/date';
-
+import { formatToDate } from '@/shared/utils/DateFormat';
 
 export default class ProjectHandler {
   static create(project: Project) {
@@ -145,37 +143,20 @@ export default class ProjectHandler {
     if (sort === 'ending') {
       // Projetos próximos à data de finalização.
       return list.sort(function (a, b) {
-        const a_date = (a.date_end as DateValue).toDate(getLocalTimeZone())
-        const b_date = (b.date_end as DateValue).toDate(getLocalTimeZone())
-        if (isAfter(a_date, b_date)) {
-          return -1;
-        }
-        if (isAfter(b_date, a_date)) {
-          return 1;
-        }
-        return 0;
+        const a_date = formatToDate(a.date_end) as Date
+        const b_date = formatToDate(b.date_end) as Date
+        return a_date.getTime() - b_date.getTime();
       });
     }
     if (sort === 'recent') {
       // Projetos iniciados mais recentemente.
 
       return list.sort(function (a, b) {
-        const a_date = (a.date_end as DateValue).toDate(getLocalTimeZone())
-        const b_date = (b.date_end as DateValue).toDate(getLocalTimeZone())
-        if (isAfter(a_date, b_date)) {
-          return -1;
-        }
-        if (isAfter(b_date, a_date)) {
-          return 1;
-        }
-        return 0;
+        const a_date = formatToDate(a.date_start) as Date
+        const b_date = formatToDate(b.date_start) as Date
+        return a_date.getTime() - b_date.getTime();
       });
     }
     return list
   }
-}
-
-interface ProjectInfo {
-  list: Project[],
-  projectIndex: number | null
 }

@@ -80,11 +80,11 @@ function remove() {
       <ul>
         <li>
           <Icon name="Calendar1" :size="24" />
-          {{ formatDate(project.date_end) }}
+          {{ formatDate(project.date_start) }}
         </li>
         <li>
           <Icon name="CalendarCheck" :size="24" />
-          {{ formatDate(project.date_start) }}
+          {{ formatDate(project.date_end) }}
         </li>
       </ul>
     </div>

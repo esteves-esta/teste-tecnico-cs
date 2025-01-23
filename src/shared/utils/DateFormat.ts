@@ -10,8 +10,13 @@ export function formatToCalendarDate(date: DateValue | undefined) {
 export function formatDate(date: DateValue | undefined) {
   if (!date) return undefined
   const dateObj = new CalendarDate(date.year, date.month, date.day).toDate(getLocalTimeZone())
-
   return format(dateObj, "dd 'de' MMMM 'de' yyyy", {
     locale: ptBR
   })
+}
+
+export function formatToDate(date: DateValue | undefined) {
+  if (!date) return undefined
+  return new CalendarDate(date.year, date.month, date.day).toDate(getLocalTimeZone())
+
 }
