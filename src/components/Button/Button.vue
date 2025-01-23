@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Icon from '@/components/Icon/Index.vue'
+import Icon from '@/components/Icon/Icon.vue'
 import { computed } from 'vue'
 
 interface Props {
@@ -20,7 +20,10 @@ const size = computed(() => (variant === 'link' ? 16 : 24))
 </script>
 
 <template>
-  <button :class="[classes[variant], classes.button, disabled && classes.disabled]">
+  <button
+    :disabled="disabled"
+    :class="[classes[variant], classes.button, disabled && classes.disabled]"
+  >
     <Icon v-if="icon_right" :size="size" :name="icon_right" />
     <slot></slot>
     <Icon v-if="icon_left" :size="size" :name="icon_left" />

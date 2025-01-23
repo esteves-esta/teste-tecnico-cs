@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useId } from 'radix-vue'
 import FieldLabel from '@/components/FieldLabel/FieldLabel.vue'
-import { ref, useTemplateRef } from 'vue'
+import { onMounted, ref, useTemplateRef, watch } from 'vue'
 import Button from '@/components/Button/Button.vue'
-import Icon from '@/components/Icon/Index.vue'
+import Icon from '@/components/Icon/Icon.vue'
 
 const inputId = useId()
 
@@ -13,7 +13,7 @@ interface Props {
   errorMessage?: string
 }
 const files = ref<FileList>(new DataTransfer().files)
-const value = defineModel<string | undefined>()
+const value = defineModel<string | ArrayBuffer | undefined>()
 const error = defineModel<boolean>('error', { required: false })
 const props = defineProps<Props>()
 
@@ -22,6 +22,24 @@ const { required, label, errorMessage } = props
 const preview = ref()
 
 const inputRef = useTemplateRef('my-input')
+
+watch(value, (newValue) => {
+  if (newValue) {
+    preview.value = newValue
+  }
+})
+
+const reader = new FileReader()
+onMounted(() => {
+  reader.addEventListener(
+    'load',
+    () => {
+      value.value = reader.result ? reader.result : undefined
+      preview.value = reader.result
+    },
+    false,
+  )
+})
 
 function selectFiles() {
   if (!inputRef.value) return
@@ -32,13 +50,11 @@ const onChange = (e: unknown) => {
   if (files.value.length === 0) return
   const name = files.value[0].name
   if (name.includes('.png') || name.includes('.jpg')) {
-    preview.value = URL.createObjectURL(files.value[0])
-    value.value = URL.createObjectURL(files.value[0])
+    reader.readAsDataURL(files.value[0])
     error.value = false
   } else {
     error.value = true
     value.value = undefined
-    preview.value = ''
   }
 }
 const clear = () => {

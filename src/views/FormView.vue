@@ -7,8 +7,8 @@ import TextField from '@/components/TextField/TextField.vue'
 import { Project } from '@/shared/models/Project'
 import { isPast, isToday, isEqual, isBefore } from 'date-fns'
 import DateField from '@/components/DateField/DateField.vue'
-import FileField from '@/components/FileField/Index.vue'
-import { getLocalTimeZone } from '@internationalized/date'
+import FileField from '@/components/FileField/FileField.vue'
+import { CalendarDate, getLocalTimeZone, type DateValue } from '@internationalized/date'
 
 class RequiredFields {
   [name: string]: boolean
@@ -20,11 +20,35 @@ class RequiredFields {
 const dateErrorMessage = 'Selecione uma data válida'
 const project = reactive<Project>(new Project())
 const isEdit = ref()
+const isLoading = ref(false)
 const touchedFields = reactive<RequiredFields>(new RequiredFields())
 
 onMounted(() => {
+  isLoading.value = true
   isEdit.value = router.currentRoute.value.name?.toString().includes('edit')
+
+  if (isEdit.value) {
+    try {
+      const editObject = ProjectService.get(router.currentRoute.value.params.id as string)
+      project.client = editObject.client
+      project.name = editObject.name
+
+      project.date_end = formatToCalendarDate(editObject.date_end)
+      project.date_start = formatToCalendarDate(editObject.date_start)
+
+      project.cover_url = editObject.cover_url
+    } finally {
+      isLoading.value = false
+    }
+  } else {
+    isLoading.value = false
+  }
 })
+
+function formatToCalendarDate(date: DateValue | undefined) {
+  if (!date) return undefined
+  return new CalendarDate(date.year, date.month, date.day)
+}
 
 const validation = computed(() => {
   const dateValidations = { date_start: false, date_end: false }
@@ -53,11 +77,13 @@ const validation = computed(() => {
 })
 
 const disabledSubmit = computed(() => {
+  const validations = Object.values(validation.value)
   return (
     project.name != '' &&
     project.client != '' &&
     project.date_start != null &&
-    project.date_end != null
+    project.date_end != null &&
+    !validations.includes(true)
   )
 })
 
@@ -66,6 +92,20 @@ function setFieldAsTouched(field: string) {
 }
 
 function submit() {
+  if (isEdit.value) edit()
+  else create()
+}
+
+function edit() {
+  try {
+    ProjectService.edit(project as Project)
+    router.push({ name: 'home' })
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+function create() {
   try {
     ProjectService.create(project as Project)
     router.push({ name: 'home' })
@@ -85,7 +125,7 @@ function goBack() {
       <Button @click="goBack" type="button" variant="link" icon_right="ArrowLeft">Voltar</Button>
       <h1>{{ isEdit ? 'Editar' : 'Novo' }} projeto</h1>
     </section>
-    <section>
+    <section v-if="!isLoading">
       <form @submit.prevent="submit">
         <TextField
           v-model="project.name"
@@ -131,6 +171,7 @@ function goBack() {
         </Button>
       </form>
     </section>
+    <section v-else>Carregando...</section>
   </article>
 </template>
 

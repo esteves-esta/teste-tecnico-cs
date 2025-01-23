@@ -19,7 +19,7 @@ import {
   DatePickerRoot,
   DatePickerTrigger,
 } from 'radix-vue'
-import Icon from '@/components/Icon/Index.vue'
+import Icon from '@/components/Icon/Icon.vue'
 import { useId } from 'radix-vue'
 import type { DateValue } from '@internationalized/date'
 import FieldLabel from '@/components/FieldLabel/FieldLabel.vue'

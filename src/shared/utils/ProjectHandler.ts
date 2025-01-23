@@ -26,7 +26,8 @@ export default class ProjectHandler {
   static edit(project: Project) {
     try {
       const { list, projectIndex } = ProjectHandler.getListAndProject(project.id);
-      if (!projectIndex) return;
+
+      if (projectIndex === null) return;
 
       const newList = list.splice(projectIndex, 1)
       LocalStorageHandler.setItem(constants.LOCAL_STORAGE_KEY,
@@ -35,6 +36,17 @@ export default class ProjectHandler {
         ]
       )
 
+    } catch (error) {
+      console.error(`Error: ${error}`)
+      throw error;
+    }
+  }
+  static get(id: string) {
+    try {
+      const { list, projectIndex } = ProjectHandler.getListAndProject(id);
+      if (projectIndex === null) throw new Error('Project not found');
+
+      return list[projectIndex];
     } catch (error) {
       console.error(`Error: ${error}`)
       throw error;
@@ -72,7 +84,7 @@ export default class ProjectHandler {
   static toggleFavorite(id: string) {
     try {
       const { list, projectIndex } = ProjectHandler.getListAndProject(id);
-      if (!projectIndex) return;
+      if (projectIndex === null) return;
       const project = list[projectIndex];
       project.isFavorite = true;
       const newList = list.splice(projectIndex, 1, project)
@@ -90,7 +102,7 @@ export default class ProjectHandler {
   static remove(id: string) {
     try {
       const { list, projectIndex } = ProjectHandler.getListAndProject(id);
-      if (!projectIndex) return;
+      if (projectIndex === null) return;
 
       const newList = list.splice(projectIndex, 1)
       LocalStorageHandler.setItem(constants.LOCAL_STORAGE_KEY, newList)
@@ -109,9 +121,8 @@ export default class ProjectHandler {
       if (!list || list.length === 0) return { list, projectIndex: null };
 
       const itemIndex = list.findIndex(item => item.id === id);
-
       if (itemIndex < 0) return { list, projectIndex: null };
-
+      console.log(itemIndex)
       return { list, projectIndex: itemIndex }
 
     } catch (error) {

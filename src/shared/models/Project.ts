@@ -6,6 +6,6 @@ export class Project {
   client: string = "";
   date_start: DateValue | undefined;
   date_end: DateValue | undefined;
-  cover_url?: string;
+  cover_url?: string | ArrayBuffer;
   isFavorite: boolean = false;
 }

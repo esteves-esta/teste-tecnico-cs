@@ -105,13 +105,13 @@
  }
 
  body {
-   min-height: 100vh;
+   /* min-height: 100vh; */
    color: var(--color-text);
    background: var(--color-background);
    transition:
      color 0.5s,
      background-color 0.5s;
-   line-height: 1.6;
+   /* line-height: 1.6; */
    font-family: "Encode Sans Semi Expanded", sans-serif;
    font-size: 15px;
 
@@ -137,7 +137,7 @@
    font-weight: 400;
  }
 
- butto {
+ button {
    background: transparent;
    cursor: pointer;
    border: none;
