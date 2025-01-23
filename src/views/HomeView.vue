@@ -94,19 +94,30 @@ const sortingOptions: { text: string; value: sort_types }[] = [
   display: flex;
   justify-content: space-between;
   margin-bottom: var(--space-m);
+  flex-direction: column;
+  gap: var(--space-m);
 }
 
 .nav_actions {
   display: flex;
   justify-content: space-between;
   gap: var(--space-xl);
+  flex-direction: column;
+}
+@media (min-width: 54rem) {
+  .nav_actions,
+  .navigation {
+    flex-direction: row;
+  }
 }
 
 .nav_title {
   display: flex;
-  gap: var(--space-l);
+  gap: var(--space-s);
+  align-items: center;
   span {
     font-size: calc(17rem / 16);
+    color: var(--color-primary);
   }
 }
 

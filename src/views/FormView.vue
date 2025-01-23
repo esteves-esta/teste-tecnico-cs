@@ -194,7 +194,7 @@ function goBack() {
   border-radius: var(--space-s);
 }
 .form form {
-  width: 704px;
+  width: clamp(404px, 75%, 704px);
   display: flex;
   flex-direction: column;
   gap: var(--space-l);
@@ -202,7 +202,13 @@ function goBack() {
 
 .date_row {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: var(--space-l);
+}
+
+@media (min-width: 54rem) {
+  .date_row {
+    flex-direction: row;
+  }
 }
 </style>
