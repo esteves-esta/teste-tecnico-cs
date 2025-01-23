@@ -1,9 +1,11 @@
+import type { DateValue } from "@internationalized/date";
+
 export class Project {
   id: string = crypto.randomUUID();
   name: string = "";
   client: string = "";
-  date_start: Date | null = null;
-  date_end: Date | null = null;
-  cover_url?: string;
+  date_start: DateValue | undefined;
+  date_end: DateValue | undefined;
+  cover_url?: string | ArrayBuffer;
   isFavorite: boolean = false;
 }

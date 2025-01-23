@@ -3,7 +3,7 @@ import { onMounted, ref } from 'vue'
 import type { ProjectListResponse } from '@/shared/models/ProjectList'
 import ProjectService from '@/shared/services/project.ts'
 import router from '@/router/index'
-import Button from '@/components/Button/Index.vue'
+import Button from '@/components/Button/Button.vue'
 const projectsList = ref<ProjectListResponse>({
   projects: [],
   total: 0,
@@ -17,7 +17,7 @@ onMounted(() => {
 })
 
 function goToNewProject() {
-  router.push({ path: 'create' })
+  router.push({ name: 'new' })
 }
 </script>
 

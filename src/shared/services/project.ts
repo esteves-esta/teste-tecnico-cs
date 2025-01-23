@@ -5,23 +5,33 @@ import ProjectHandler from "../utils/ProjectHandler";
 function create(project: Project) {
   try {
     ProjectHandler.create(project)
-    return true;
+
   } catch (error) {
     alert("Houve um erro ao criar o projeto.")
     console.error(`Error on creating project: ${error}`)
     // TODO TOAST
-    return false;
+    throw error;
   }
 }
 function edit(project: Project) {
   try {
     ProjectHandler.edit(project)
-    return true;
+
   } catch (error) {
     alert("Houve um erro ao criar o projeto.")
     console.error(`Error on creating project: ${error}`)
     // TODO TOAST
-    return false;
+    throw error;
+  }
+}
+function get(id: string) {
+  try {
+    return ProjectHandler.get(id)
+  } catch (error) {
+    alert("Houve um erro ao criar o projeto.")
+    console.error(`Error on creating project: ${error}`)
+    // TODO TOAST
+    throw error;
   }
 }
 function list(request: ProjectListRequest): ProjectListResponse {
@@ -37,27 +47,28 @@ function list(request: ProjectListRequest): ProjectListResponse {
 function toggleFavorite(id: string) {
   try {
     ProjectHandler.toggleFavorite(id)
-    return true;
+
   } catch (error) {
     alert("Houve um erro ao criar o projeto.")
     console.error(`Error on creating project: ${error}`)
     // TODO TOAST
+    throw error;
   }
 }
 function remove(id: string) {
   try {
     ProjectHandler.remove(id)
-    return true;
+
   } catch (error) {
     alert("Houve um erro ao criar o projeto.")
     console.error(`Error on creating project: ${error}`)
     // TODO TOAST
-    return false;
+    throw error;
   }
 }
 
 export default {
-  create, edit, list, toggleFavorite, remove
+  create, edit, list, toggleFavorite, remove, get
 }
 
 
