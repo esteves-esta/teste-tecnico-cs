@@ -14,6 +14,7 @@ header {
   display: flex;
   background: var(--color-primary-dark);
   align-items: center;
+  box-shadow: 0px 4px 4px 0px hsl(0 0 0% / 0.25);
 }
 
 .logo {
