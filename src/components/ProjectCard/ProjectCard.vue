@@ -10,6 +10,10 @@ import FavoriteToggle from '@/components/FavoriteToggle/FavoriteToggle.vue'
 import DropDownMenu from '@/components/DropDownMenu/DropDownMenu.vue'
 import AlertDialog from '@/components/AlertDialog/AlertDialog.vue'
 import VisuallyHidden from '@/components/VisuallyHidden/VisuallyHidden.vue'
+import { useSearch } from '@/stores/search'
+import { getHighlightedHtml } from '@/shared/utils/helpers'
+
+const searchStore = useSearch()
 
 interface Props {
   project: Project
@@ -58,6 +62,12 @@ function remove() {
     console.error('Error on project removal: ', error)
   }
 }
+
+function getNameWithHighlight() {
+  const name = project.name
+  const query = searchStore.query
+  return getHighlightedHtml(name, query)
+}
 </script>
 
 <template>
@@ -71,9 +81,7 @@ function remove() {
       </div>
     </div>
     <div :class="classes.info_container">
-      <h2>
-        {{ project.name }}
-      </h2>
+      <h2 v-html="getNameWithHighlight()"></h2>
       <p>
         <strong>Cliente:</strong>
         {{ project.client }}
@@ -116,12 +124,17 @@ function remove() {
   overflow: hidden;
   border-radius: 16px;
 }
+h2 {
+  font-size: calc(20rem / 16);
+  color: var(--color-secondary);
+  strong {
+    background: var(--color-accent);
+    color: var(--white);
+  }
+}
+
 .info_container {
   padding: var(--space-m);
-  h2 {
-    font-size: calc(20rem / 16);
-    color: var(--color-secondary);
-  }
   ul {
     margin-top: var(--space-xl);
     padding: 0px;
