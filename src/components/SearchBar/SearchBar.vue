@@ -4,8 +4,10 @@ import VisuallyHidden from '@/components/VisuallyHidden/VisuallyHidden.vue'
 import { useSearch } from '@/stores/search'
 import { onMounted, ref, useTemplateRef, watch } from 'vue'
 import SearchService from '@/shared/services/search.ts'
+import { storeToRefs } from 'pinia'
 
 const searchStore = useSearch()
+const { query } = storeToRefs(useSearch())
 const inputRef = useTemplateRef('my-input')
 const history = ref<string[]>([])
 
@@ -51,7 +53,7 @@ function searchItem(item: string) {
       <input
         :required="true"
         ref="my-input"
-        v-model="searchStore.query"
+        v-model="query"
         placeholder="Digite o nome do projeto..."
         type="search"
         :class="classes.search_input"

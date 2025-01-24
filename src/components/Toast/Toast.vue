@@ -3,19 +3,16 @@ import { ToastAction, ToastDescription, ToastRoot, ToastTitle, ToastViewport } f
 import { useToast } from '@/stores/toast'
 import Icon from '../Icon/Icon.vue'
 import VisuallyHidden from '../VisuallyHidden/VisuallyHidden.vue'
-
+import { storeToRefs } from 'pinia'
 const toastStore = useToast()
+const { open, toast } = storeToRefs(useToast())
 </script>
 
 <template>
-  <ToastRoot
-    v-model:open="toastStore.open"
-    :class="classes.root"
-    :duration="toastStore.toast.duration"
-  >
-    <ToastTitle :class="classes.title"> {{ toastStore.toast.title }} </ToastTitle>
+  <ToastRoot v-model:open="open" :class="classes.root" :duration="toast.duration">
+    <ToastTitle :class="classes.title"> {{ toast.title }} </ToastTitle>
     <ToastDescription as-child :class="classes.description">
-      {{ toastStore.toast.message }}
+      {{ toast.message }}
     </ToastDescription>
     <ToastAction :class="classes.action" as-child alt-text="Fechar">
       <button :class="classes.btn_close" @click="toastStore.closeToast">
