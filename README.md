@@ -1,6 +1,6 @@
 # Teste técnico
 
-Utilizando protótipo fornecido pela empresa realizar as seguintes funcionalidades.
+Utilizando protótipo fornecido pela empresa realizar uma aplicação gerenciadora de projetos as seguintes funcionalidades.
 
 - [x] Exibir uma listagem inicial sem nenhum projeto cadastrado, conforme o design.  
 - [x] Exibir o título da página e o total de projetos cadastrados.
@@ -17,6 +17,10 @@ Utilizando protótipo fornecido pela empresa realizar as seguintes funcionalidad
   - [x] (Opcional) Implementar um histórico das últimas 5 buscas recentes.
   - [x] (Opcional) Exibir um highlight no texto dos resultados que correspondam à busca.
 
+## Versões
+
+- [x] Com dados salvos no localhost - branch main
+- [ ]  Com dados salvos em api nodejs - branch feat/api *(on progress)*
 ## Bibliotecas
 
 - Vite
