@@ -185,6 +185,10 @@ function searchItem(item: string) {
   }
 }
 
+.history:hover {
+  visibility: visible;
+}
+
 .search_container:focus-within:is(.empty) + .history {
   visibility: visible;
 }
