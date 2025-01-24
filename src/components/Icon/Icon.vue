@@ -15,7 +15,10 @@ const props = withDefaults(defineProps<Props>(), {
   size: 16,
 })
 
-const icon = computed(() => icons[props.name])
+const icon = computed(() => {
+  const iconList: { [name: string]: unknown } = icons
+  return iconList[props.name]
+})
 </script>
 
 <template>

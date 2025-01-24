@@ -8,7 +8,7 @@ import { Project } from '@/shared/models/Project'
 import { isPast, isToday, isEqual, isBefore } from 'date-fns'
 import DateField from '@/components/DateField/DateField.vue'
 import FileField from '@/components/FileField/FileField.vue'
-import { getLocalTimeZone } from '@internationalized/date'
+import { getLocalTimeZone, type DateValue } from '@internationalized/date'
 import { formatToCalendarDate } from '@/shared/utils/DateFormat'
 
 class RequiredFields {
@@ -164,7 +164,7 @@ function goBack() {
         <div :class="classes.date_row">
           <DateField
             label="Data de Início"
-            v-model="project.date_start"
+            v-model="project.date_start as DateValue"
             icon="Calendar1"
             v-model:error="validation.date_start"
             :errorMessage="dateErrorMessage"
@@ -174,7 +174,7 @@ function goBack() {
           <DateField
             label="Data Final"
             icon="CalendarCheck"
-            v-model="project.date_end"
+            v-model="project.date_end as DateValue"
             v-model:error="validation.date_end"
             :errorMessage="dateErrorMessage"
             :required="true"

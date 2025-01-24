@@ -48,10 +48,11 @@ function list(request: ProjectListRequest): ProjectListResponse {
   try {
     return ProjectHandler.list(request)
   } catch (error) {
+    const err = error as Error;
     const toastStore = useToast();
     toastStore.setToast({
       title: 'Houve um erro ao consultar os projetos.',
-      message: 'Tente novamente',
+      message: `Ocorreu o seguinte erro: ${err.name}`,
     })
     return { projects: [], total: 0 }
   }

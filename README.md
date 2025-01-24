@@ -1,5 +1,10 @@
 # Teste técnico
 
+----
+[![Netlify Status](https://api.netlify.com/api/v1/badges/5df22820-871d-40f3-a6ab-c57287d5614c/deploy-status)](https://app.netlify.com/sites/gerenciado-projeto-teste/deploys)
+> Link do projeto em prod (netlify) - https://gerenciado-projeto-teste.netlify.app/
+----
+
 Utilizando protótipo fornecido pela empresa realizar uma aplicação gerenciadora de projetos as seguintes funcionalidades.
 
 - [x] Exibir uma listagem inicial sem nenhum projeto cadastrado, conforme o design.  

@@ -59,8 +59,9 @@ function selectFiles() {
   inputRef.value.click()
 }
 
-const onChange = (e: unknown) => {
-  files.value = e.target.files
+const onChange = (event: Event) => {
+  const target: unknown = event?.target
+  files.value = (target as { files: FileList }).files
   if (files.value.length === 0) return
 
   const name = files.value[0].name.toLowerCase()
