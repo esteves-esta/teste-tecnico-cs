@@ -83,6 +83,7 @@ const clear = () => {
       <Icon name="HardDriveUpload" :size="24" />
       <p>Escolha uma imagem .jpg ou .png no seu dispositivo</p>
       <input
+        inert
         ref="my-input"
         type="file"
         :files="files"
