@@ -8,10 +8,13 @@ function create(project: Project) {
     ProjectHandler.create(project)
 
   } catch (error) {
+    let message = 'Tente novamente';
+    if ((error as Error).message.includes('exceeded the quota'))
+      message = "A imagem muito grande, troque ou remova a imagem."
     const toastStore = useToast();
     toastStore.setToast({
       title: 'Houve um erro ao criar o projeto.',
-      message: 'Tente novamente',
+      message,
     })
     throw error;
   }

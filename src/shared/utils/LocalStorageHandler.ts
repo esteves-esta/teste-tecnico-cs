@@ -5,7 +5,8 @@ export default class LocalStorageHandler {
       return item ? JSON.parse(item) : null;
     } catch (error) {
       console.error(`Error retrieving item from localStorage: ${error}`);
-      return null;
+      throw error
+
     }
   }
 
@@ -15,6 +16,7 @@ export default class LocalStorageHandler {
       localStorage.setItem(key, item);
     } catch (error) {
       console.error(`Error setting item in localStorage: ${error}`);
+      throw error;
     }
   }
 
