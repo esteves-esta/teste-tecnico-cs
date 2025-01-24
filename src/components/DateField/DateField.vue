@@ -277,11 +277,11 @@ const { required, label, errorMessage, icon } = props
 .calendar_cell_trigger {
   display: flex;
   position: relative;
-  padding: 0.5rem;
+  padding: 0.65rem;
   justify-content: center;
   align-items: center;
-  border-width: 1px;
-  border-color: transparent;
+  border: 1px solid transparent;
+  border-radius: 100%;
   outline-style: none;
   font-size: 0.7rem;
   line-height: 1.25rem;
@@ -289,6 +289,7 @@ const { required, label, errorMessage, icon } = props
   color: var(--color-text);
   white-space: nowrap;
   background-color: transparent;
+  cursor: pointer;
 }
 
 .calendar_cell_trigger:hover {
@@ -296,7 +297,7 @@ const { required, label, errorMessage, icon } = props
 }
 
 .calendar_cell_trigger:focus {
-  box-shadow: 0 0 0 2px var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
 }
 
 .calendar_cell_trigger[data-disabled] {

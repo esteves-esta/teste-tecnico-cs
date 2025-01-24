@@ -33,7 +33,6 @@ const searchStore = useSearch()
 }
 
 .logo {
-  padding-right: 64px;
   display: block;
   margin: 0 auto;
 }
