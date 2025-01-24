@@ -28,13 +28,15 @@ watch(
   () => {
     if (searchStore.query && searchStore.query.length >= 3) {
       SearchService.save(searchStore.query)
+
       debounce(() => {
         refreshPage()
       }, 500)
     } else {
-      debounce(() => {
-        refreshPage()
-      }, 500)
+      if (!searchStore.query)
+        debounce(() => {
+          refreshPage()
+        }, 500)
     }
   },
 )

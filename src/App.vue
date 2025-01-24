@@ -2,8 +2,9 @@
 import SearchBar from '@/components/SearchBar/SearchBar.vue'
 import Icon from '@/components/Icon/Icon.vue'
 import VisuallyHidden from '@/components/VisuallyHidden/VisuallyHidden.vue'
+import BaseView from '@/views/BaseView.vue'
 import { useSearch } from './stores/search'
-
+import { ToastProvider } from 'radix-vue'
 const searchStore = useSearch()
 </script>
 
@@ -20,7 +21,9 @@ const searchStore = useSearch()
     </template>
   </header>
   <main :class="classes.main">
-    <RouterView />
+    <ToastProvider>
+      <BaseView />
+    </ToastProvider>
   </main>
 </template>
 
