@@ -41,6 +41,7 @@ function searchItem(item: string) {
     <label
       :class="[
         classes.search_container,
+        searchStore.query ? classes.filled : classes.empty,
         searchStore.searchIsVisible ? classes.open : classes.closed,
       ]"
     >
@@ -48,6 +49,7 @@ function searchItem(item: string) {
         <VisuallyHidden>Pesquisar</VisuallyHidden>
       </Icon>
       <input
+        :required="true"
         ref="my-input"
         v-model="searchStore.query"
         placeholder="Digite o nome do projeto..."
@@ -181,7 +183,7 @@ function searchItem(item: string) {
   }
 }
 
-.search_container:focus-within + .history {
+.search_container:focus-within:is(.empty) + .history {
   visibility: visible;
 }
 </style>
