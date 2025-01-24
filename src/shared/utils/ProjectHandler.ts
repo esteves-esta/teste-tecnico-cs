@@ -3,6 +3,7 @@ import constants from "@/shared/utils/constants";
 import type { ProjectInfo, ProjectListRequest, ProjectListResponse, sort_types } from "@/shared/models/ProjectList";
 import type { Project } from "@/shared//models/Project";
 import { formatToDate } from '@/shared/utils/DateFormat';
+import type { DateValue } from "@internationalized/date";
 
 export default class ProjectHandler {
   static create(project: Project) {
@@ -142,21 +143,19 @@ export default class ProjectHandler {
     }
     if (sort === 'ending') {
       // Projetos próximos à data de finalização.
-      return list.sort(function (a, b) {
-        const a_date = formatToDate(a.date_end) as Date
-        const b_date = formatToDate(b.date_end) as Date
-        return a_date.getTime() - b_date.getTime();
-      });
+      return list.sort((a, b) => ProjectHandler.sortByDate(a, b, "date_end"));
     }
     if (sort === 'recent') {
       // Projetos iniciados mais recentemente.
 
-      return list.sort(function (a, b) {
-        const a_date = formatToDate(a.date_start) as Date
-        const b_date = formatToDate(b.date_start) as Date
-        return a_date.getTime() - b_date.getTime();
-      });
+      return list.sort((a, b) => ProjectHandler.sortByDate(a, b, "date_start"));
     }
     return list
+  }
+
+  private static sortByDate(a: Project, b: Project, prop_name: string) {
+    const a_date = formatToDate(a[prop_name] as DateValue) as Date
+    const b_date = formatToDate(b[prop_name] as DateValue) as Date
+    return a_date.getTime() - b_date.getTime();
   }
 }
