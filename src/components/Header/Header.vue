@@ -8,7 +8,10 @@ import router from '@/router'
 const searchStore = useSearch()
 
 router.beforeEach((to) => {
-  if (searchStore.searchIsVisible && to.name !== 'home') searchStore.toogleSearch()
+  if (searchStore.searchIsVisible && to.name !== 'home') {
+    searchStore.query = ''
+    searchStore.toogleSearch()
+  }
 })
 </script>
 
