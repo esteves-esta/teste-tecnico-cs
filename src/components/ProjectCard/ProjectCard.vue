@@ -1,14 +1,15 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+import defaultImg from '@/assets/Image.jpg'
 import type { Project } from '@/shared/models/Project'
 import { formatDate } from '@/shared/utils/DateFormat'
-import defaultImg from '@/assets/Image.jpg'
-import Icon from '../Icon/Icon.vue'
-import FavoriteToggle from '../FavoriteToggle/FavoriteToggle.vue'
-import DropDownMenu from '../DropDownMenu/DropDownMenu.vue'
 import ProjectService from '@/shared/services/project.ts'
 import router from '@/router'
-import AlertDialog from '../AlertDialog/AlertDialog.vue'
-import { ref } from 'vue'
+import Icon from '@/components/Icon/Icon.vue'
+import FavoriteToggle from '@/components/FavoriteToggle/FavoriteToggle.vue'
+import DropDownMenu from '@/components/DropDownMenu/DropDownMenu.vue'
+import AlertDialog from '@/components/AlertDialog/AlertDialog.vue'
+import VisuallyHidden from '@/components/VisuallyHidden/VisuallyHidden.vue'
 
 interface Props {
   project: Project
@@ -62,11 +63,11 @@ function remove() {
 <template>
   <div :class="classes.container">
     <div :class="classes.img_container">
-      <img v-if="project.cover_url" :src="project.cover_url" />
+      <img v-if="project.cover_url" :src="project.cover_url as string" />
       <img v-else :src="defaultImg" />
       <div :class="classes.action_btns">
         <FavoriteToggle :value="project.isFavorite" @click="toogleFavorite" />
-        <DropDownMenu :menu_items="menu" />
+        <DropDownMenu :menu_items="menu" label="Menu de opções do projeto" />
       </div>
     </div>
     <div :class="classes.info_container">
@@ -80,10 +81,12 @@ function remove() {
       <ul>
         <li>
           <Icon name="Calendar1" :size="24" />
+          <VisuallyHidden>Data de Início</VisuallyHidden>
           {{ formatDate(project.date_start) }}
         </li>
         <li>
           <Icon name="CalendarCheck" :size="24" />
+          <VisuallyHidden>Data Final</VisuallyHidden>
           {{ formatDate(project.date_end) }}
         </li>
       </ul>

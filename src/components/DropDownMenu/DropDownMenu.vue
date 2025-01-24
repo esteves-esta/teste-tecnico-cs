@@ -8,23 +8,26 @@ import {
   DropdownMenuRoot,
   DropdownMenuTrigger,
 } from 'radix-vue'
+import VisuallyHidden from '@/components/VisuallyHidden/VisuallyHidden.vue'
 
 interface Item {
   icon_name?: string
-  label: boolean
+  label: string
   function: () => void
 }
 
 interface Props {
   menu_items: Item[]
+  label: string
 }
-const { menu_items } = defineProps<Props>()
+const { menu_items, label } = defineProps<Props>()
 </script>
 
 <template>
   <DropdownMenuRoot>
-    <DropdownMenuTrigger :class="classes.icon_button" aria-label="Medu de opções do projeto">
+    <DropdownMenuTrigger :class="classes.icon_button" :aria-label="label">
       <Icon name="Ellipsis" :size="24" />
+      <VisuallyHidden>{{ label }}</VisuallyHidden>
     </DropdownMenuTrigger>
 
     <DropdownMenuPortal>
@@ -45,11 +48,6 @@ const { menu_items } = defineProps<Props>()
 </template>
 
 <style module="classes">
-/* reset */
-button {
-  all: unset;
-}
-
 .content {
   min-width: 220px;
   background-color: var(--white);

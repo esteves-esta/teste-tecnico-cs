@@ -1,15 +1,20 @@
 <script setup lang="ts">
 import { Toggle } from 'radix-vue'
 import Icon from '../Icon/Icon.vue'
+import { computed } from 'vue'
+import VisuallyHidden from '@/components/VisuallyHidden/VisuallyHidden.vue'
 
 const { value } = defineProps({
   value: Boolean,
 })
+
+const label = computed(() => (value ? 'Desfavoritar' : 'Favoritar'))
 </script>
 
 <template>
-  <Toggle :pressed="value" aria-label="Toggle italic" :class="classes.toggle">
+  <Toggle :pressed="value" :aria-label="label" :class="classes.toggle">
     <Icon name="Star" :size="20" :stroke-width="2" />
+    <VisuallyHidden>{{ label }}</VisuallyHidden>
   </Toggle>
 </template>
 

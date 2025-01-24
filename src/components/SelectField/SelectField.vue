@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Icon from '../Icon/Icon.vue'
+import VisuallyHidden from '../VisuallyHidden/VisuallyHidden.vue'
 
 interface Option {
   value: unknown
@@ -28,8 +29,8 @@ function getDisplayedValue() {
         {{ option.text }}
       </option>
     </select>
-    <!-- <VisuallyHidden>{{ label }}</VisuallyHidden> -->
     {{ getDisplayedValue() }}
+    <VisuallyHidden>{{ label }}</VisuallyHidden>
     <Icon name="ChevronDown" :size="16" :stroke-width="2" />
   </label>
 </template>
