@@ -136,7 +136,8 @@ const clear = () => {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: var(--space-l) 0px;
+  padding: var(--space-l);
+  text-align: center;
   width: 100%;
   font-weight: 400;
   border: 0.5px dashed var(--color-text);
