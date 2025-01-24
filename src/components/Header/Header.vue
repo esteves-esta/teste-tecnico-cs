@@ -3,7 +3,13 @@ import SearchBar from '@/components/SearchBar/SearchBar.vue'
 import Icon from '@/components/Icon/Icon.vue'
 import VisuallyHidden from '@/components/VisuallyHidden/VisuallyHidden.vue'
 import { useSearch } from '@/stores/search'
+import router from '@/router'
+
 const searchStore = useSearch()
+
+router.beforeEach((to) => {
+  if (to.name !== 'home') searchStore.toogleSearch()
+})
 </script>
 
 <template>
