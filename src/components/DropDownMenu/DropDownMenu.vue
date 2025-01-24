@@ -86,11 +86,14 @@ const { menu_items, label } = defineProps<Props>()
   padding-left: 25px;
   cursor: pointer;
   font-weight: 400;
-  transition: color 750ms ease-in;
-}
+  transition: color 350ms ease-in;
 
-.menu_item:hover {
-  color: var(--color-primary-dark);
+  &:hover,
+  &:focus {
+    color: var(--color-primary-dark);
+    outline: none;
+    background-color: var(--color-primary-light);
+  }
 }
 
 .icon_button {
