@@ -1,39 +1,41 @@
-# teste-tecnico
+# Teste técnico
 
-This template should help get you started developing with Vue 3 in Vite.
+Utilizando protótipo fornecido pela empresa realizar as seguintes funcionalidades.
 
-## Recommended IDE Setup
+- [x] Exibir uma listagem inicial sem nenhum projeto cadastrado, conforme o design.  
+- [x] Exibir o título da página e o total de projetos cadastrados.
+- [x] Implementar um filtro para exibir apenas os projetos favoritos.
+- [x] Adicionar a opção de ordenação da listagem por:
+  - [x] Ordem alfabética (padrão).
+  - [x] Projetos iniciados mais recentemente.
+  - [x] Projetos próximos à data de finalização.
+- [x] Página com o formulário de edição de projeto.
+- [x] Página com o formulário de criação de projeto.
+- [x] Modal de confirmação de remoção.
+- [x] Favoritar: Permitir favoritar/desfavoritar projetos.
+- [x] Implementar uma barra de busca onde o usuário pode digitar ao menos 3 caracteres para disparar a busca.
+  - [x] (Opcional) Implementar um histórico das últimas 5 buscas recentes.
+  - [x] (Opcional) Exibir um highlight no texto dos resultados que correspondam à busca.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Bibliotecas
 
-## Type Support for `.vue` Imports in TS
+- Vite
+- Vue
+- Typescript
+- RadixVue
+- Pinia
+- VueRouter
+- LucideVue (icones)
+- Internationalized Date
+- date-fns
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
+## Rodando projeto localmente
+1. Instalar dependências
 ```sh
 npm install
 ```
-
-### Compile and Hot-Reload for Development
-
+2. Rodar projeto
 ```sh
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
