@@ -2,6 +2,7 @@
 import { onMounted, ref, watch } from 'vue'
 import type { ProjectListResponse, sort_types } from '@/shared/models/ProjectList'
 import ProjectService from '@/shared/services/project.ts'
+import SearchService from '@/shared/services/search.ts'
 import router from '@/router/index'
 import Button from '@/components/Button/Button.vue'
 import ProjectCard from '@/components/ProjectCard/ProjectCard.vue'
@@ -25,10 +26,16 @@ onMounted(() => {
 watch(
   () => searchStore.query,
   () => {
-    if (searchStore.query && searchStore.query.length >= 3)
+    if (searchStore.query && searchStore.query.length >= 3) {
+      SearchService.save(searchStore.query)
       debounce(() => {
         refreshPage()
       }, 500)
+    } else {
+      debounce(() => {
+        refreshPage()
+      }, 500)
+    }
   },
 )
 
@@ -55,6 +62,7 @@ const sortingOptions: { text: string; value: sort_types }[] = [
 function closeSearch() {
   searchStore.query = ''
   searchStore.toogleSearch()
+  refreshPage()
 }
 </script>
 

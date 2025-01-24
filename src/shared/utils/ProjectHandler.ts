@@ -8,9 +8,9 @@ import type { DateValue } from "@internationalized/date";
 export default class ProjectHandler {
   static create(project: Project) {
     try {
-      const list = LocalStorageHandler.getItem(constants.LOCAL_STORAGE_KEY) || []
+      const list = LocalStorageHandler.getItem(constants.DB_LOCAL_STORAGE_KEY) || []
 
-      LocalStorageHandler.setItem(constants.LOCAL_STORAGE_KEY,
+      LocalStorageHandler.setItem(constants.DB_LOCAL_STORAGE_KEY,
         [...list,
           project
         ]
@@ -29,7 +29,7 @@ export default class ProjectHandler {
 
       list.splice(projectIndex, 1, project)
 
-      LocalStorageHandler.setItem(constants.LOCAL_STORAGE_KEY,
+      LocalStorageHandler.setItem(constants.DB_LOCAL_STORAGE_KEY,
         [...list]
       )
 
@@ -52,7 +52,7 @@ export default class ProjectHandler {
 
   static list(request: ProjectListRequest): ProjectListResponse {
     try {
-      const list: Project[] = LocalStorageHandler.getItem(constants.LOCAL_STORAGE_KEY)
+      const list: Project[] = LocalStorageHandler.getItem(constants.DB_LOCAL_STORAGE_KEY)
       if (!list || list.length === 0) return { projects: [], total: 0 }
 
       let formattedList: Project[] = list
@@ -86,7 +86,7 @@ export default class ProjectHandler {
       project.isFavorite = true;
       list.splice(projectIndex, 1, project)
 
-      LocalStorageHandler.setItem(constants.LOCAL_STORAGE_KEY, [
+      LocalStorageHandler.setItem(constants.DB_LOCAL_STORAGE_KEY, [
         ...list,
       ])
 
@@ -102,7 +102,7 @@ export default class ProjectHandler {
       if (projectIndex === null) return;
 
       list.splice(projectIndex, 1)
-      LocalStorageHandler.setItem(constants.LOCAL_STORAGE_KEY, list)
+      LocalStorageHandler.setItem(constants.DB_LOCAL_STORAGE_KEY, list)
 
     } catch (error) {
       alert("Houve um erro ao remover o projeto.")
@@ -114,7 +114,7 @@ export default class ProjectHandler {
     let list: Project[] = [];
 
     try {
-      list = LocalStorageHandler.getItem(constants.LOCAL_STORAGE_KEY)
+      list = LocalStorageHandler.getItem(constants.DB_LOCAL_STORAGE_KEY)
       if (!list || list.length === 0) return { list, projectIndex: null };
 
       const itemIndex = list.findIndex(item => item.id === id);
