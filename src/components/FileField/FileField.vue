@@ -4,6 +4,7 @@ import FieldLabel from '@/components/FieldLabel/FieldLabel.vue'
 import { onMounted, ref, useTemplateRef, watch } from 'vue'
 import Button from '@/components/Button/Button.vue'
 import Icon from '@/components/Icon/Icon.vue'
+import VisuallyHidden from '../VisuallyHidden/VisuallyHidden.vue'
 
 const inputId = useId()
 
@@ -49,7 +50,7 @@ function selectFiles() {
 const onChange = (e: unknown) => {
   files.value = e.target.files
   if (files.value.length === 0) return
-  
+
   const name = files.value[0].name
 
   if (name.includes('.png') || name.includes('.jpg')) {
@@ -75,6 +76,7 @@ const clear = () => {
       <img :src="preview" />
       <button :class="classes.delete_btn" @click="clear" type="button">
         <Icon name="Trash" :size="32" />
+        <VisuallyHidden>Excluir imagem</VisuallyHidden>
       </button>
     </div>
     <div v-else :class="classes.container">

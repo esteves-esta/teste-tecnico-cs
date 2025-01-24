@@ -51,13 +51,15 @@ function getDisplayedValue() {
   border: 1px solid var(--color-text);
   min-width: 300px;
   &:focus-within {
-    outline: 2px auto var(--color-primary);
+    /* outline: 2px auto var(--color-primary); */
+    box-shadow: var(--box-shadow);
   }
 
   &:hover {
     border-color: var(--color-primary);
   }
 }
+
 .select {
   appearance: none;
   top: 0;

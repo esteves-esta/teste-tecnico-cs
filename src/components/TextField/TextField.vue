@@ -50,10 +50,11 @@ const { required, label, errorMessage } = props
   border-radius: var(--space-s);
   padding: 8px 16px 10px 16px;
   color: var(--color-primary-dark);
-  transition: border-color 750ms ease-in;
+  transition: border-color 350ms ease-in;
   outline: none;
   &:focus {
     border-color: var(--color-primary-dark);
+    box-shadow: var(--box-shadow);
   }
 }
 

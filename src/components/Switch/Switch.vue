@@ -30,7 +30,7 @@ const { label } = defineProps<{ label: string }>()
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 .switch_root:focus {
-  box-shadow: var(box-shadow-focus);
+  box-shadow: var(--box-shadow);
 }
 .switch_root[data-state='checked'] {
   background-color: var(--color-accent);

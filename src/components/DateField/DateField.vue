@@ -164,10 +164,11 @@ const { required, label, errorMessage, icon } = props
   border-radius: var(--space-s);
   padding: 8px 16px 10px 16px;
   color: var(--calendar-text);
-  transition: border-color 750ms ease-in;
+  transition: border-color 350ms ease-in;
   outline: none;
-  &:focus {
-    --calendar-border: var(--primary-dark);
+  &:focus-within {
+    --calendar-border: var(--color-primary-dark);
+    box-shadow: var(--box-shadow);
   }
 }
 
