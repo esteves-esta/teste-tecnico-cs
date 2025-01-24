@@ -38,7 +38,12 @@ onMounted(() => {
   padding: var(--space-m);
   line-height: 1.005;
   transition: color 0.5s ease-in-out;
+  position: absolute;
+  top: 0px;
+  right: -1000px;
+  transition: right 0.5s ease-in;
   &:focus-within {
+    right: 0px;
     box-shadow: var(--box-shadow-focus);
   }
 

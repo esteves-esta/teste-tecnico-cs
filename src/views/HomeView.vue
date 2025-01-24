@@ -9,6 +9,7 @@ import SelectField from '@/components/SelectField/SelectField.vue'
 import Switch from '@/components/Switch/Switch.vue'
 import { useSearch } from '@/stores/search'
 import { debounce } from '@/shared/utils/helpers'
+import type { Project } from '@/shared/models/Project'
 
 const searchStore = useSearch()
 
@@ -50,17 +51,18 @@ const sortingOptions: { text: string; value: sort_types }[] = [
   { text: 'Iniciados mais recentes', value: 'recent' },
   { text: 'Prazo mais próximo', value: 'ending' },
 ]
+
+function closeSearch() {
+  searchStore.query = ''
+  searchStore.toogleSearch()
+}
 </script>
 
 <template>
   <article v-if="projectsList.total">
     <template v-if="searchStore.searchIsVisible">
       <div :class="classes.search_navigation">
-        <Button
-          @click="searchStore.toogleSearch"
-          type="button"
-          variant="link"
-          icon_right="ArrowLeft"
+        <Button @click="closeSearch" type="button" variant="link" icon_right="ArrowLeft"
           >Voltar</Button
         >
         <h1>Resultado da busca</h1>
@@ -92,7 +94,7 @@ const sortingOptions: { text: string; value: sort_types }[] = [
       <ProjectCard
         v-for="project in projectsList.projects"
         :key="project.id"
-        :project="project"
+        :project="project as Project"
         @updated="refreshPage"
       />
     </div>

@@ -26,6 +26,7 @@ const searchStore = useSearch()
 
 <style module="classes">
 .header {
+  position: relative;
   color: var(--white);
   line-height: 1.5;
   height: 100%;

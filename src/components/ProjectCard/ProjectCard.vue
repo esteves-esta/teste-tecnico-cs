@@ -66,7 +66,8 @@ function remove() {
 function getNameWithHighlight() {
   const name = project.name
   const query = searchStore.query
-  return getHighlightedHtml(name, query)
+  if (query.length >= 3) return getHighlightedHtml(name, query)
+  return name
 }
 </script>
 
