@@ -5,7 +5,9 @@ import { onMounted, ref, useTemplateRef, watch } from 'vue'
 import Button from '@/components/Button/Button.vue'
 import Icon from '@/components/Icon/Icon.vue'
 import VisuallyHidden from '../VisuallyHidden/VisuallyHidden.vue'
+import { useToast } from '@/stores/toast'
 
+const toastStore = useToast()
 const inputId = useId()
 
 interface Props {
@@ -40,6 +42,16 @@ onMounted(() => {
     },
     false,
   )
+  reader.addEventListener(
+    'error',
+    () => {
+      toastStore.setToast({
+        title: 'Erro ao ler image',
+        message: `Ocorreu um erro ao ler a image`,
+      })
+    },
+    false,
+  )
 })
 
 function selectFiles() {
@@ -51,13 +63,15 @@ const onChange = (e: unknown) => {
   files.value = e.target.files
   if (files.value.length === 0) return
 
-  const name = files.value[0].name
+  const name = files.value[0].name.toLowerCase()
 
   if (name.includes('.png') || name.includes('.jpg')) {
     reader.readAsDataURL(files.value[0])
-    error.value = false
   } else {
-    error.value = true
+    toastStore.setToast({
+      title: 'Formato não aceito',
+      message: 'Esse formato de imagem não é aceito.',
+    })
     value.value = undefined
   }
 }
