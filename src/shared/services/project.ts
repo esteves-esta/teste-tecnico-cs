@@ -8,7 +8,6 @@ function create(project: Project) {
     ProjectHandler.create(project)
 
   } catch (error) {
-    console.error(`Error on creating project: ${error}`)
     const toastStore = useToast();
     toastStore.setToast({
       title: 'Houve um erro ao criar o projeto.',
@@ -22,7 +21,6 @@ function edit(project: Project) {
     ProjectHandler.edit(project)
 
   } catch (error) {
-    console.error(`Error on creating project: ${error}`)
     const toastStore = useToast();
     toastStore.setToast({
       title: 'Houve um erro ao salvar o projeto.',
@@ -35,7 +33,6 @@ function get(id: string) {
   try {
     return ProjectHandler.get(id)
   } catch (error) {
-    console.error(`Error on creating project: ${error}`)
     const toastStore = useToast();
     toastStore.setToast({
       title: 'Houve um erro ao consultar o projeto.',
@@ -48,7 +45,6 @@ function list(request: ProjectListRequest): ProjectListResponse {
   try {
     return ProjectHandler.list(request)
   } catch (error) {
-    console.error(`Error on creating project: ${error}`)
     const toastStore = useToast();
     toastStore.setToast({
       title: 'Houve um erro ao consultar os projetos.',
@@ -62,7 +58,6 @@ function toggleFavorite(id: string) {
     ProjectHandler.toggleFavorite(id)
 
   } catch (error) {
-    console.error(`Error on creating project: ${error}`)
     const toastStore = useToast();
     toastStore.setToast({
       title: 'Houve um erro ao favoritar o projeto.',
@@ -76,7 +71,6 @@ function remove(id: string) {
     ProjectHandler.remove(id)
 
   } catch (error) {
-    console.error(`Error on creating project: ${error}`)
     const toastStore = useToast();
     toastStore.setToast({
       title: 'Houve um erro ao remover o projeto.',

@@ -16,7 +16,6 @@ export default class ProjectHandler {
         ]
       )
     } catch (error) {
-      console.error(`Error: ${error}`)
       throw error;
     }
 
@@ -71,9 +70,7 @@ export default class ProjectHandler {
       return { projects: formattedList, total: list.length }
 
     } catch (error) {
-      alert("Houve um erro ao listar projetos.")
       console.error(`Error on listing projects: ${error}`)
-      // TODO TOAST
       return { projects: [], total: 0 }
     }
   }
@@ -105,7 +102,6 @@ export default class ProjectHandler {
       LocalStorageHandler.setItem(constants.DB_LOCAL_STORAGE_KEY, list)
 
     } catch (error) {
-      alert("Houve um erro ao remover o projeto.")
       console.error(`Error: ${error}`)
       throw error;
     }

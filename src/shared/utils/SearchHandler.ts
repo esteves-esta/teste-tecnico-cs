@@ -14,7 +14,7 @@ export default class SearchHandler {
         [query, ...list]
       )
     } catch (error) {
-      console.error(`Error: ${error}`)
+      console.error(`Error on saving search history: ${error}`)
       throw error;
     }
 
@@ -24,7 +24,7 @@ export default class SearchHandler {
       return LocalStorageHandler.getItem(constants.SEARCH_LOCAL_STORAGE_KEY) || []
 
     } catch (error) {
-      console.error(`Error: ${error}`)
+      console.error(`Error on getting search history: ${error}`)
       throw error;
     }
 
@@ -39,7 +39,7 @@ export default class SearchHandler {
         [...list.filter(item => item != query)]
       )
     } catch (error) {
-      console.error(`Error: ${error}`)
+      console.error(`Error on removing item from search history: ${error}`)
       throw error;
     }
 

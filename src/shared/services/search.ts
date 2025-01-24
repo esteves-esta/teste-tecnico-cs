@@ -6,7 +6,6 @@ function save(query: string) {
     SearchHandler.saveHistory(query)
 
   } catch (error) {
-    console.error(`Error on saving search history: ${error}`)
     const toastStore = useToast();
     toastStore.setToast({
       title: 'Erro ao salvar histórico',
@@ -20,7 +19,6 @@ function get() {
     return SearchHandler.getHistory()
 
   } catch (error) {
-    console.error(`Error on getting search history: ${error}`)
     const toastStore = useToast();
     toastStore.setToast({
       title: 'Erro ao consultar o histórico',
@@ -34,7 +32,6 @@ function remove(query: string) {
     SearchHandler.remove(query)
 
   } catch (error) {
-    console.error(`Error on removing item from search history: ${error}`)
     const toastStore = useToast();
     toastStore.setToast({
       title: 'Erro ao remover um item do histórico',
