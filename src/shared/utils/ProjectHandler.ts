@@ -80,7 +80,7 @@ export default class ProjectHandler {
       const { list, projectIndex } = ProjectHandler.getListAndProject(id);
       if (projectIndex === null) return;
       const project = list[projectIndex];
-      project.isFavorite = true;
+      project.isFavorite = !project.isFavorite;
       list.splice(projectIndex, 1, project)
 
       LocalStorageHandler.setItem(constants.DB_LOCAL_STORAGE_KEY, [
