@@ -1,6 +1,6 @@
 import express from 'express'
 import dotenv from "dotenv";
-// import projectsRoutes from '../routes/projectsRoutes'
+import projectsRoutes from '../routes/projectsRoutes'
 import searchHistoryRoutes from '../routes/searchHistoryRoutes'
 
 dotenv.config();
@@ -12,7 +12,7 @@ console.log(process.env.NODE_ENV)
 // middleware to parse json
 app.use(express.json())
 
-// app.use('/project', projectsRoutes)
+app.use('/project', projectsRoutes)
 
 app.use('/searchHistory', searchHistoryRoutes)
 

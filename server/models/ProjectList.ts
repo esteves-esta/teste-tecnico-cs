@@ -12,7 +12,3 @@ export class ProjectListRequest {
   query?: string;
 }
 
-export interface ProjectInfo {
-  list: Project[],
-  projectIndex: number | null
-}

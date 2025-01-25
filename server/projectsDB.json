@@ -1,0 +1,28 @@
+{
+  "projects": [
+    {
+      "id": "e5c6b871-bdf3-4cf4-96b1-b639dcaf472a",
+      "name": "teste asfsaf",
+      "client": "asdfasdf",
+      "date_start": {
+        "calendar": {
+          "identifier": "gregory"
+        },
+        "era": "AD",
+        "year": 2025,
+        "month": 3,
+        "day": 14
+      },
+      "date_end": {
+        "calendar": {
+          "identifier": "gregory"
+        },
+        "era": "AD",
+        "year": 2025,
+        "month": 3,
+        "day": 27
+      },
+      "isFavorite": true
+    }
+  ]
+}

@@ -6,8 +6,8 @@ const router = Router()
 
 router.get('/', Handler.getHistory)
 
-// router.post('/', Handler)
+router.post('/', Handler.saveHistory)
 
-// router.delete('/:slug', Handler)
+router.delete('/', Handler.remove)
 
 export default router
