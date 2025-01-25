@@ -100,13 +100,19 @@ function closeSearch() {
         </div>
       </div>
     </template>
-    <div :class="classes.project_container">
+
+    <div v-if="projectsList.projects.length" :class="classes.project_container">
       <ProjectCard
         v-for="project in projectsList.projects"
         :key="project.id"
         :project="project as Project"
         @updated="refreshPage"
       />
+    </div>
+
+    <div v-else :class="classes.empty_results">
+      <h3 v-if="searchStore.query">A pesquisa atual não retornou resultados.</h3>
+      <h3 v-if="onlyFavorites">Favorite um item para que ele apareça neste filtro.</h3>
     </div>
   </article>
 
@@ -118,15 +124,21 @@ function closeSearch() {
 </template>
 
 <style module="classes">
-.empty {
+.empty,
+.empty_results {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;
   height: 100%;
   gap: var(--space-l);
   button {
     margin-top: var(--space-s);
+  }
+  h3 {
+    color: var(--color-primary);
+    padding: 15rem 0;
   }
 }
 
