@@ -3,9 +3,9 @@ import { useToast } from '@/stores/toast'
 // import { useToast } from '@/stores/progress'
 
 if (import.meta.env.MODE === "development")
-  http.defaults.baseURL = "http://localhost:3000/api"
+  http.defaults.baseURL = "http://localhost:3000/api/"
 else
-  http.defaults.baseURL = `${window.location.origin}/api`
+  http.defaults.baseURL = `${window.location.origin}/.netlify/functions/api/`
 
 export function createHttp() {
   const toastStore = useToast()
