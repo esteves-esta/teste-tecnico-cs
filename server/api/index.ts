@@ -17,7 +17,7 @@ api.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
 
-api.get('/', (req, res) => {
+api.get('/api/', (req, res) => {
   res.send('Hello, Express!')
 })
 
