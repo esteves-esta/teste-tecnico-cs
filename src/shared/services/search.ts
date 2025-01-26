@@ -1,6 +1,6 @@
 import http from '@/config/https';
 
-const API_ROUTE = "searchHistory/";
+const API_ROUTE = "searchHistory";
 
 async function save(query: string) {
   try {
@@ -15,7 +15,7 @@ async function save(query: string) {
 async function get() {
   try {
     const response = await http.get(`${API_ROUTE}`);
-    return response.data;
+    return response.data.history;
 
   } catch (error) {
 

@@ -8,6 +8,6 @@ router.get('/', Handler.getHistory)
 
 router.post('/', Handler.saveHistory)
 
-router.delete('/', Handler.remove)
+router.delete('/:query', Handler.remove)
 
 export default router
