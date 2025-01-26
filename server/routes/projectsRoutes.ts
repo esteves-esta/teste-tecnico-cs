@@ -3,10 +3,9 @@ import Handler from '../controllers/projectsController'
 
 const router = Router()
 
+router.get('/:id', Handler.get)
 
 router.get('/', Handler.list)
-
-router.get('/:id', Handler.list)
 
 router.post('/', Handler.create)
 

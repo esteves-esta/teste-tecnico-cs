@@ -2,7 +2,7 @@ import type { ProjectListRequest } from "@/shared/models/ProjectList";
 import type { Project } from "@/shared//models/Project";
 import http from '@/config/https';
 
-const API_ROUTE = "project/";
+const API_ROUTE = "project";
 
 async function create(project: Project) {
   try {
