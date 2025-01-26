@@ -39,9 +39,9 @@ function goToEditPage() {
   router.push({ name: 'edit', params: { id: project.id } })
 }
 
-function toogleFavorite() {
+async function toogleFavorite() {
   try {
-    ProjectService.toggleFavorite(project.id)
+    await ProjectService.toggleFavorite(project.id)
     emit('updated')
   } catch (error) {
     console.error('Error on favorite toogle: ', error)
@@ -54,9 +54,9 @@ function toogleRemoveDialog() {
   openRemoveConfirmationDialog.value = true
 }
 
-function remove() {
+async function remove() {
   try {
-    ProjectService.remove(project.id)
+    await ProjectService.remove(project.id)
     emit('updated')
   } catch (error) {
     console.error('Error on project removal: ', error)

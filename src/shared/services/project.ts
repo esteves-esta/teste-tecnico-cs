@@ -1,85 +1,67 @@
-import type { ProjectListRequest, ProjectListResponse } from "@/shared/models/ProjectList";
+import type { ProjectListRequest } from "@/shared/models/ProjectList";
 import type { Project } from "@/shared//models/Project";
-import ProjectHandler from "../utils/ProjectHandler";
-import { useToast } from '@/stores/toast'
+import http from '@/config/https';
 
-function create(project: Project) {
+const API_ROUTE = "project/";
+
+async function create(project: Project) {
   try {
-    ProjectHandler.create(project)
+    const response = await http.post(`${API_ROUTE}`, { project });
+    return response.data;
 
   } catch (error) {
-    let message = 'Tente novamente';
-    if ((error as Error).message.includes('exceeded the quota'))
-      message = "A imagem muito grande, troque ou remova a imagem."
-    const toastStore = useToast();
-    toastStore.setToast({
-      title: 'Houve um erro ao criar o projeto.',
-      message,
-    })
     throw error;
   }
 }
-function edit(project: Project) {
+async function edit(project: Project) {
   try {
-    ProjectHandler.edit(project)
+    const response = await http.put(`${API_ROUTE}`, { project });
+    return response.data;
 
   } catch (error) {
-    const toastStore = useToast();
-    toastStore.setToast({
-      title: 'Houve um erro ao salvar o projeto.',
-      message: 'Tente novamente',
-    })
+
     throw error;
   }
 }
-function get(id: string) {
+async function get(id: string) {
   try {
-    return ProjectHandler.get(id)
+    const response = await http.get(`${API_ROUTE}/${id}`);
+    return response.data;
   } catch (error) {
-    const toastStore = useToast();
-    toastStore.setToast({
-      title: 'Houve um erro ao consultar o projeto.',
-      message: 'Tente novamente',
-    })
+
     throw error;
   }
 }
-function list(request: ProjectListRequest): ProjectListResponse {
+async function list(request: ProjectListRequest) {
   try {
-    return ProjectHandler.list(request)
-  } catch (error) {
-    const err = error as Error;
-    const toastStore = useToast();
-    toastStore.setToast({
-      title: 'Houve um erro ao consultar os projetos.',
-      message: `Ocorreu o seguinte erro: ${err.name}`,
-    })
+    const { favoritesOnly, sort, query } = request;
+
+    let filters = "";
+    if (favoritesOnly) filters += `favoritesOnly=${favoritesOnly}&`
+    if (query) filters += `query=${query}&`;
+    if (sort) filters += `sort=${sort}`;
+
+    const response = await http.get(`${API_ROUTE}?${filters}`);
+    return response.data;
+  } catch {
     return { projects: [], total: 0 }
   }
 }
-function toggleFavorite(id: string) {
+async function toggleFavorite(id: string) {
   try {
-    ProjectHandler.toggleFavorite(id)
+    const response = await http.put(`${API_ROUTE}/favorite/${id}`);
+    return response.data;
 
   } catch (error) {
-    const toastStore = useToast();
-    toastStore.setToast({
-      title: 'Houve um erro ao favoritar o projeto.',
-      message: 'Tente novamente',
-    })
     throw error;
   }
 }
-function remove(id: string) {
+async function remove(id: string) {
   try {
-    ProjectHandler.remove(id)
+    const response = await http.delete(`${API_ROUTE}/${id}`);
+    return response.data;
 
   } catch (error) {
-    const toastStore = useToast();
-    toastStore.setToast({
-      title: 'Houve um erro ao remover o projeto.',
-      message: 'Tente novamente',
-    })
     throw error;
   }
 }

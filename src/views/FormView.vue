@@ -25,13 +25,13 @@ const isSubmitting = ref(false)
 const touchedFields = reactive<RequiredFields>(new RequiredFields())
 const dateErrorMessage = 'Selecione uma data válida'
 
-onMounted(() => {
+onMounted(async () => {
   isLoading.value = true
   isEdit.value = router.currentRoute.value.name?.toString().includes('edit')
 
   if (isEdit.value) {
     try {
-      const editObject = ProjectService.get(router.currentRoute.value.params.id as string)
+      const editObject = await ProjectService.get(router.currentRoute.value.params.id as string)
       mapProject(editObject)
     } finally {
       isLoading.value = false
@@ -110,9 +110,9 @@ function submit() {
   else create()
 }
 
-function edit() {
+async function edit() {
   try {
-    ProjectService.edit(project as Project)
+    await ProjectService.edit(project as Project)
     router.push({ name: 'home' })
   } catch (error) {
     console.error(error)
@@ -121,9 +121,9 @@ function edit() {
   }
 }
 
-function create() {
+async function create() {
   try {
-    ProjectService.create(project as Project)
+    await ProjectService.create(project as Project)
     router.push({ name: 'home' })
   } catch (error) {
     console.error(error)

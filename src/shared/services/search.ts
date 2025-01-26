@@ -1,42 +1,34 @@
-import SearchHandler from "../utils/SearchHandler";
-import { useToast } from '@/stores/toast'
+import http from '@/config/https';
 
-function save(query: string) {
+const API_ROUTE = "searchHistory/";
+
+async function save(query: string) {
   try {
-    SearchHandler.saveHistory(query)
+    const response = await http.post(`${API_ROUTE}`, { query });
+    return response.data;
 
   } catch (error) {
-    const toastStore = useToast();
-    toastStore.setToast({
-      title: 'Erro ao salvar histórico',
-      message: 'Tente novamente',
-    })
+
     throw error;
   }
 }
-function get() {
+async function get() {
   try {
-    return SearchHandler.getHistory()
+    const response = await http.get(`${API_ROUTE}`);
+    return response.data;
 
   } catch (error) {
-    const toastStore = useToast();
-    toastStore.setToast({
-      title: 'Erro ao consultar o histórico',
-      message: 'Tente novamente',
-    })
+
     throw error;
   }
 }
-function remove(query: string) {
+async function remove(query: string) {
   try {
-    SearchHandler.remove(query)
+    const response = await http.delete(`${API_ROUTE}/${query}`);
+    return response.data;
 
   } catch (error) {
-    const toastStore = useToast();
-    toastStore.setToast({
-      title: 'Erro ao remover um item do histórico',
-      message: 'Tente novamente',
-    })
+
     throw error;
   }
 }

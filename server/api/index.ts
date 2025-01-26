@@ -10,7 +10,8 @@ const PORT = process.env.PORT || 3000
 console.log(process.env.NODE_ENV)
 
 // middleware to parse json
-app.use(express.json())
+app.use(express.json({ limit: '100mb' }))
+app.use(express.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }));
 
 app.use('/project', projectsRoutes)
 

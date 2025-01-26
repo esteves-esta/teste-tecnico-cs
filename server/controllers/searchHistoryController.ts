@@ -41,7 +41,7 @@ export default class SearchHandler {
   }
   static async remove(req: Request, res: Response, next: NextFunction) {
     try {
-      const { query } = req.body
+      const { query } = req.params
 
       const db = await searchDB()
       const history = await db.data;

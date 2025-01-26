@@ -6,12 +6,14 @@ const router = Router()
 
 router.get('/', Handler.list)
 
-router.post('/', Handler.create)
+router.get('/:id', Handler.list)
 
-router.put('/favorite', Handler.toggleFavorite)
+router.post('/', Handler.create)
 
 router.put('/', Handler.edit)
 
-router.delete('/', Handler.remove)
+router.put('/favorite/:id', Handler.toggleFavorite)
+
+router.delete('/:id', Handler.remove)
 
 export default router

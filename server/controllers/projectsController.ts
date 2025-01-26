@@ -1,6 +1,6 @@
 import { NextFunction, Response, Request } from 'express';
 import type { DateValue } from "@internationalized/date";
-import type { ProjectListRequest, sort_types } from "../models/ProjectList";
+import type { sort_types } from "../models/ProjectList";
 import type { Project } from "../models/Project";
 import { formatToDate } from '../utils/DateFormat';
 import projectDB from '../config/projectDB'
@@ -56,7 +56,7 @@ export default class ProjectHandler {
   }
   static async get(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.body
+      const { id } = req.params
       if (!id) {
         res.status(400).json({ message: "Id required !" });
         next()
@@ -80,7 +80,7 @@ export default class ProjectHandler {
 
   static async list(req: Request, res: Response, next: NextFunction) {
     try {
-      const request: ProjectListRequest = req.body
+      const request = req.query
       if (!request) {
         await res.status(400).json({ message: "FavoriteOnly and sort are required fields !" });
         next();
@@ -105,7 +105,7 @@ export default class ProjectHandler {
       }
 
       if (request.sort) {
-        formattedList = ProjectHandler.sortList(request.sort, formattedList)
+        formattedList = ProjectHandler.sortList(request.sort as sort_types, formattedList)
       }
 
       await res.status(200).send({ projects: formattedList, total: list.length })
@@ -119,7 +119,7 @@ export default class ProjectHandler {
 
   static async toggleFavorite(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.body
+      const { id } = req.params
       if (!id) {
         res.status(400).json({ message: "Id required !" });
         next()
@@ -149,7 +149,7 @@ export default class ProjectHandler {
 
   static async remove(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.body
+      const { id } = req.params
       if (!id) {
         res.status(400).json({ message: "Id required !" });
         next()

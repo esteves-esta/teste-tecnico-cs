@@ -5,7 +5,7 @@ export const useToast = defineStore('toast', () => {
   class Toast {
     title = '';
     message?: string = '';
-    duration?: number = 1500;
+    duration?: number;
   }
   const toast = ref<Toast>(new Toast())
   const open = ref(false)
@@ -19,7 +19,7 @@ export const useToast = defineStore('toast', () => {
     open.value = true;
     toast.value.title = info.title;
     toast.value.message = info.message;
-    toast.value.duration = info.duration || 1000 * 10;
+    toast.value.duration = info.duration || 1000 * 5;
   }
   return { open, toast, setToast, closeToast }
 })

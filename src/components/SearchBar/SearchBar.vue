@@ -3,7 +3,7 @@ import Icon from '@/components/Icon/Icon.vue'
 import VisuallyHidden from '@/components/VisuallyHidden/VisuallyHidden.vue'
 import { useSearch } from '@/stores/search'
 import { onMounted, ref, useTemplateRef, watch } from 'vue'
-import SearchService from '@/shared/services/search.ts'
+import SearchService from '@/shared/services/search'
 import { storeToRefs } from 'pinia'
 
 const searchStore = useSearch()
@@ -25,12 +25,12 @@ watch(
   },
 )
 
-function getHistory() {
-  history.value = SearchService.get()
+async function getHistory() {
+  history.value = await SearchService.get()
 }
 
-function removeFromHistory(item: string) {
-  SearchService.remove(item)
+async function removeFromHistory(item: string) {
+  await SearchService.remove(item)
   getHistory()
 }
 function searchItem(item: string) {

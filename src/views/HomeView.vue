@@ -41,8 +41,8 @@ watch(
   },
 )
 
-function refreshPage() {
-  projectsList.value = ProjectService.list({
+async function refreshPage() {
+  projectsList.value = await ProjectService.list({
     favoritesOnly: onlyFavorites.value,
     sort: sort.value,
     query: searchStore.query,
