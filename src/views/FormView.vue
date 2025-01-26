@@ -48,6 +48,7 @@ function mapProject(object: Project) {
   project.date_end = formatToCalendarDate(object.date_end)
   project.date_start = formatToCalendarDate(object.date_start)
   project.cover_url = object.cover_url
+  project.isFavorite = object.isFavorite
 }
 
 const validation = computed(() => {
