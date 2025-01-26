@@ -5,10 +5,8 @@ import serverless from "serverless-http";
 
 const api = express()
 const PORT = process.env.PORT || 3000
-console.log(process.env.NODE_ENV)
 
-// middleware to parse json
-api.use(express.json({ limit: '100mb' }))
+api.use(express.json())
 api.use(express.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }));
 
 api.use('/api/project', projectsRoutes)
