@@ -2,8 +2,10 @@ import { AxiosError, default as http } from 'axios'
 import { useToast } from '@/stores/toast'
 // import { useToast } from '@/stores/progress'
 
-// http.defaults.baseURL = window.location.origin
-http.defaults.baseURL = "http://localhost:3000/"
+if (import.meta.env.MODE === "development")
+  http.defaults.baseURL = "http://localhost:3000/api"
+else
+  http.defaults.baseURL = `${window.location.origin}/api`
 
 export function createHttp() {
   const toastStore = useToast()

@@ -25,7 +25,8 @@ Utilizando protótipo fornecido pela empresa realizar uma aplicação gerenciado
 ## Versões
 
 - [x] Com dados salvos no localhost - branch main
-- [ ]  Com dados salvos em api nodejs - branch feat/api *(on progress)*
+- [x]  Com dados salvos em api nodejs - branch feat/api *(feito depois do prazo só por diversão mesmo =D)*
+
 ## Bibliotecas
 
 - Vite
@@ -38,13 +39,28 @@ Utilizando protótipo fornecido pela empresa realizar uma aplicação gerenciado
 - Internationalized Date
 - date-fns
 
+### API
+
+- ExpressJS
+- Typescript
+- lowdb - database on json file
+- Internationalized Date
+- date-fns
+
+
 ## Rodando projeto localmente
 1. Instalar dependências
 ```sh
 npm install
 ```
+
 2. Rodar projeto
 ```sh
 npm run dev
+```
+
+3. Rodar api
+```sh
+npm run api
 ```
 

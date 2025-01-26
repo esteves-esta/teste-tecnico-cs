@@ -2,27 +2,30 @@ import express from 'express'
 import dotenv from "dotenv";
 import projectsRoutes from '../routes/projectsRoutes'
 import searchHistoryRoutes from '../routes/searchHistoryRoutes'
+import serverless from "serverless-http";
 
 dotenv.config();
 
-const app = express()
+const api = express()
 const PORT = process.env.PORT || 3000
 console.log(process.env.NODE_ENV)
 
 // middleware to parse json
-app.use(express.json({ limit: '100mb' }))
-app.use(express.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }));
+api.use(express.json({ limit: '100mb' }))
+api.use(express.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }));
 
-app.use('/project', projectsRoutes)
+api.use('/api/project', projectsRoutes)
 
-app.use('/searchHistory', searchHistoryRoutes)
+api.use('/api/searchHistory', searchHistoryRoutes)
 
-app.listen(PORT, () => {
+api.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
 
-app.get('/', (req, res) => {
+api.get('/', (req, res) => {
   res.send('Hello, Express!')
 })
 
-export default app
+export default api
+
+export const handler = serverless(api);

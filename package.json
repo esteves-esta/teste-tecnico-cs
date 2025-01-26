@@ -6,6 +6,7 @@
   "homepage": "/",
   "scripts": {
     "dev": "vite",
+    "api": "cd server && npx tsx api/index.ts",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "build-only": "vite build",

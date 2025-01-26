@@ -15,10 +15,12 @@
   "license": "ISC",
   "dependencies": {
     "@internationalized/date": "^3.7.0",
+    "@netlify/functions": "^3.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "lowdb": "^7.0.1"
+    "lowdb": "^7.0.1",
+    "serverless-http": "^3.2.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
