@@ -1,10 +1,7 @@
 import express from 'express'
-import dotenv from "dotenv";
 import projectsRoutes from '../routes/projectsRoutes'
 import searchHistoryRoutes from '../routes/searchHistoryRoutes'
 import serverless from "serverless-http";
-
-dotenv.config();
 
 const api = express()
 const PORT = process.env.PORT || 3000
