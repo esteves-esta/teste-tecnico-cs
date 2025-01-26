@@ -2,7 +2,7 @@
   "projects": [
     {
       "id": "e5c6b871-bdf3-4cf4-96b1-b639dcaf472a",
-      "name": "HELLO WORLD",
+      "name": "HELLO WORLD WWW",
       "client": "WORD WIDE WEB",
       "date_start": {
         "calendar": {
@@ -22,7 +22,7 @@
         "month": 4,
         "day": 27
       },
-      "isFavorite": false
+      "isFavorite": true
     },
     {
       "id": "b32c76b1-acdf-4617-9194-315dbf8c0d74",
@@ -50,7 +50,7 @@
     },
     {
       "id": "7bb1c0a4-4179-4bc0-838c-00dd3717e4d9",
-      "name": "Girassois amarelos",
+      "name": "Girassois amarelinhos",
       "client": "Flores",
       "date_start": {
         "calendar": {
