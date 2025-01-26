@@ -25,7 +25,7 @@ Utilizando protótipo fornecido pela empresa realizar uma aplicação gerenciado
 ## Versões
 
 - [x] Com dados salvos no localhost - branch main
-- [ ]  Com dados salvos em api nodejs - branch feat/api *(on progress)*
+- [ ]  Com dados salvos em api nodejs - branch feat/api *(feito depois do prazo só por diversão mesmo =D)*
 ## Bibliotecas
 
 - Vite
