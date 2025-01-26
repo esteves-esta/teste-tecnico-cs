@@ -16,7 +16,7 @@ interface Props {
   errorMessage?: string
 }
 const files = ref<FileList>(new DataTransfer().files)
-const value = defineModel<string | ArrayBuffer | undefined>()
+const imageModel = defineModel<string | ArrayBuffer | undefined>()
 const error = defineModel<boolean>('error', { required: false })
 const props = defineProps<Props>()
 
@@ -26,7 +26,7 @@ const preview = ref()
 
 const inputRef = useTemplateRef('my-input')
 
-watch(value, (newValue) => {
+watch(imageModel, (newValue) => {
   if (newValue) {
     preview.value = newValue
   }
@@ -34,10 +34,12 @@ watch(value, (newValue) => {
 
 const reader = new FileReader()
 onMounted(() => {
+  preview.value = imageModel.value
+
   reader.addEventListener(
     'load',
     () => {
-      value.value = reader.result ? reader.result : undefined
+      imageModel.value = reader.result ? reader.result : undefined
       preview.value = reader.result
     },
     false,
@@ -73,14 +75,14 @@ const onChange = (event: Event) => {
       title: 'Formato não aceito',
       message: 'Esse formato de imagem não é aceito.',
     })
-    value.value = undefined
+    imageModel.value = undefined
   }
 }
 
 const clear = () => {
   files.value = new DataTransfer().files
   preview.value = ''
-  value.value = undefined
+  imageModel.value = undefined
 }
 </script>
 

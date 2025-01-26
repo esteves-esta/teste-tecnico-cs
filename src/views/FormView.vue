@@ -183,7 +183,6 @@ function goBack() {
         </div>
 
         <FileField label="Capa do projeto" v-model="project.cover_url" />
-
         <Button :disabled="!disabledSubmit || isSubmitting" type="submit" icon_right="CirclePlus">
           Salvar projeto
         </Button>
