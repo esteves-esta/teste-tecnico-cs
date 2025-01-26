@@ -11,16 +11,18 @@ api.use(express.urlencoded({ limit: '50mb', extended: true, parameterLimit: 5000
 
 const router = express.Router();
 router.get("/hello", (req, res) => { res.send("Hello World!") });
+router.get("/project", projectsRoutes);
+router.get("/searchHistory", searchHistoryRoutes);
 
-api.use('/api/project', projectsRoutes)
+// api.use('/api/project', projectsRoutes)
 
-api.use('/api/searchHistory', searchHistoryRoutes)
+// api.use('/api/searchHistory', searchHistoryRoutes)
 
 api.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
 
-api.use("/api/", router);
+api.use("/.netlify/functions/", router);
 
 export default api
 
