@@ -1,98 +1,76 @@
-import { NextFunction, Response, Request } from 'express';
 import type { DateValue } from "@internationalized/date";
-import type { sort_types } from "../models/ProjectList";
+import type { ProjectListRequest, sort_types } from "../models/ProjectList";
 import type { Project } from "../models/Project";
 import { formatToDate } from '../utils/DateFormat';
 import projectDB from '../config/projectDB'
 
 export default class ProjectHandler {
-  static async create(req: Request, res: Response, next: NextFunction) {
+  static async create(project: Project) {
     try {
-      const { project } = req.body
+
       if (!project) {
-        res.status(400).json({ message: "Project required !" });
-        next()
-        return;
+        return { body: "Project required !", status: 400 };
       }
       const db = await projectDB()
       db.data.projects.push(project)
 
       await db.write()
-      await res.status(200).send('Saved');
-      next();
+      return { body: "Saved", status: 200 };
     } catch (error) {
       console.error(`Error: ${error}`)
       throw error;
     }
   }
 
-  static async edit(req: Request, res: Response, next: NextFunction) {
+  static async edit(project: Project) {
     try {
-
-      const { project } = req.body
       if (!project) {
-        res.status(400).json({ message: "Project required !" });
-        next()
-        return;
+        return { body: "Project required !", status: 400 };
       }
 
       const db = await projectDB()
       const projectIndex = await ProjectHandler.getListAndProject(db.data.projects, project.id);
       if (projectIndex === -1) {
-        await res.status(200).send('Project not found');
-        next();
-        return;
+        return { body: "Project not found", status: 200 };
       }
 
       db.data.projects.splice(projectIndex, 1, { ...project })
 
       await db.write()
-      await res.status(200).send('Updated');
-      next();
+      return { body: "Updated", status: 200 };
     } catch (error) {
       console.error(`Error: ${error}`)
       throw error;
     }
   }
-  static async get(req: Request, res: Response, next: NextFunction) {
+
+  static async get(id: string) {
     try {
-      const { id } = req.params
       if (!id) {
-        res.status(400).json({ message: "Id required !" });
-        next()
-        return;
+        return { body: "Id required", status: 400 };
       }
       const db = await projectDB()
       const projectIndex = await ProjectHandler.getListAndProject(db.data.projects, id);
       if (projectIndex === -1) {
-        await res.status(200).send('Project not found');
-        next()
-        return;
+        return { body: "Project not found", status: 200 };
       }
-
-      await res.status(200).send(db.data.projects[projectIndex]);
-      next();
+      return { body: db.data.projects[projectIndex], status: 200 };
     } catch (error) {
       console.error(`Error: ${error}`)
       throw error;
     }
   }
 
-  static async list(req: Request, res: Response, next: NextFunction) {
+  static async list(request: ProjectListRequest) {
     try {
-      const request = req.query
       if (!request) {
-        await res.status(400).json({ message: "FavoriteOnly and sort are required fields !" });
-        next();
-        return;
+        return { body: "FavoriteOnly and sort are required fields !", status: 400 };
       }
 
       const db = await projectDB()
       const list = db.data.projects;
       if (!list || list.length === 0) {
-        await res.status(200).send([])
-        next();
-        return;
+        return { body: [], status: 200 };
       }
 
       let formattedList: Project[] = list
@@ -108,30 +86,23 @@ export default class ProjectHandler {
         formattedList = ProjectHandler.sortList(request.sort as sort_types, formattedList)
       }
 
-      await res.status(200).send({ projects: formattedList, total: list.length })
-      next();
-      return;
+      return { body: { projects: formattedList, total: list.length }, status: 200 };
     } catch (error) {
       console.error(`Error on listing projects: ${error}`)
-
+      throw error;
     }
   }
 
-  static async toggleFavorite(req: Request, res: Response, next: NextFunction) {
+  static async toggleFavorite(id: string) {
     try {
-      const { id } = req.params
       if (!id) {
-        res.status(400).json({ message: "Id required !" });
-        next()
-        return;
+        return { body: "Id required", status: 400 };
       }
 
       const db = await projectDB()
       const projectIndex = await ProjectHandler.getListAndProject(db.data.projects, id);
       if (projectIndex === -1) {
-        await res.status(200).send('Project not found');
-        next()
-        return;
+        return { body: "Project not found", status: 200 };
       }
 
       const project = db.data.projects[projectIndex];
@@ -139,41 +110,35 @@ export default class ProjectHandler {
       db.data.projects.splice(projectIndex, 1, project)
 
       await db.write()
-      await res.status(200).send('Favorited');
-      next();
+      return { body: "Favorited", status: 200 };
     } catch (error) {
       console.error(`Error: ${error}`)
       throw error;
     }
   }
 
-  static async remove(req: Request, res: Response, next: NextFunction) {
+  static async remove(id: string) {
     try {
-      const { id } = req.params
       if (!id) {
-        res.status(400).json({ message: "Id required !" });
-        next()
-        return;
+        return { body: "Id required", status: 400 };
       }
 
       const db = await projectDB()
       const projectIndex = await ProjectHandler.getListAndProject(db.data.projects, id);
       if (projectIndex === -1) {
-        await res.status(200).send('Project not found');
-        next()
-        return;
+        return { body: "Project not found", status: 200 };
       }
 
       db.data.projects.splice(projectIndex, 1)
 
       await db.write()
-      await res.status(200).send('Deleted');
-      next();
+      return { body: "Deleted", status: 200 };
     } catch (error) {
       console.error(`Error: ${error}`)
-      res.status(500).json({ error: `Error: ${error}` });
+      throw error
     }
   }
+
   private static getListAndProject(list: Project[], id: string): number {
     try {
       if (!list || list.length === 0) return -1;

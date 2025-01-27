@@ -1,20 +1,21 @@
 import { AxiosError, default as http } from 'axios'
 import { useToast } from '@/stores/toast'
-// import { useToast } from '@/stores/progress'
+import { useProgress } from '@/stores/progress'
+import { storeToRefs } from 'pinia'
 
 if (import.meta.env.MODE === "development")
-  http.defaults.baseURL = "http://localhost:3000/api/"
+  http.defaults.baseURL = "http://localhost:8888/api/"
 else
-  http.defaults.baseURL = `${window.location.origin}/.netlify/functions/api/`
+  http.defaults.baseURL = `${window.location.origin}/api/`
 
 export function createHttp() {
   const toastStore = useToast()
-  // const progresStore = useProgress()
+  const { progress } = storeToRefs(useProgress())
 
   http.interceptors.request.use((config) => {
-    // if (!progress.value) {
-    //   progress.value = true
-    // }
+    if (!progress.value) {
+      progress.value = true
+    }
     return config
   })
 
@@ -26,7 +27,7 @@ export function createHttp() {
           message: response.headers.message ? response.headers.message : 'Alterações Salvas',
         })
       }
-      // progress.value = false
+      progress.value = false
       return response
     },
     (error: AxiosError) => {
@@ -46,7 +47,7 @@ export function createHttp() {
           message: errorMessage,
         })
       }
-      // progress.value = false
+      progress.value = false
       return Promise.reject(error)
     }
   )

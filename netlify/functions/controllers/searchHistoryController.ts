@@ -1,10 +1,9 @@
-import { NextFunction, Response, Request } from 'express';
 import searchDB from '../config/searchHistoryDB'
 
 export default class SearchHandler {
-  static async saveHistory(req: Request, res: Response, next: NextFunction) {
+  static async saveHistory(query: string) {
     try {
-      const { query } = req.body
+
       const db = await searchDB()
       const history = await db.data;
 
@@ -15,23 +14,21 @@ export default class SearchHandler {
       db.data.push(query)
 
       await db.write()
-      await res.status(200).send('Saved');
 
-      next();
+      return { body: 'Saved', status: 200 };
     } catch (error) {
       console.error(`Error on saving search history: ${error}`)
       throw error;
     }
 
   }
-  static async getHistory(req: Request, res: Response, next: NextFunction) {
+  static async getHistory() {
     try {
       const db = await searchDB()
       const history = await db.data;
 
-      await res.status(201).send({ history });
+      return { body: { history }, status: 200 };
 
-      next();
 
     } catch (error) {
       // console.error(`Error on getting search history: ${error}`)
@@ -39,20 +36,16 @@ export default class SearchHandler {
     }
 
   }
-  static async remove(req: Request, res: Response, next: NextFunction) {
+  static async remove(query: string) {
     try {
-      const { query } = req.params
-
       const db = await searchDB()
       const history = await db.data;
 
-      if (!history.includes(query)) await res.status(201);
+      if (!history.includes(query)) return { body: '', status: 201 };
 
       db.data = db.data.filter(item => item != query)
       await db.write()
-      await res.status(200).send('Removed');
-
-      next();
+      return { body: 'Removed', status: 200 };
     } catch (error) {
       console.error(`Error on removing item from search history: ${error}`)
       throw error;

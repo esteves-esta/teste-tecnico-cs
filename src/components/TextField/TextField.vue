@@ -46,6 +46,7 @@ const { required, label, errorMessage } = props
 .input {
   width: 100%;
   font-weight: 400;
+  background-color: transparent;
   border: 1px solid var(--color-text);
   border-radius: var(--space-s);
   padding: 8px 16px 10px 16px;
