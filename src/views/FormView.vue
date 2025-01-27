@@ -189,7 +189,6 @@ function goBack() {
         </Button>
       </form>
     </section>
-    <section v-else>Carregando...</section>
   </article>
 </template>
 
