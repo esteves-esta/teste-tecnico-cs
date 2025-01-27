@@ -207,7 +207,7 @@ function goBack() {
   border-radius: var(--space-s);
 }
 .form form {
-  width: clamp(404px, 75%, 704px);
+  width: clamp(200px, 75%, 700px);
   display: flex;
   flex-direction: column;
   gap: var(--space-l);
