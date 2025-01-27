@@ -3,7 +3,7 @@ import { JSONFilePreset } from 'lowdb/node'
 
 export default async () => {
   const defaultData: string[] = []
-  const db = await JSONFilePreset<string[]>('./db/searchHistoryDB.json', defaultData)
+  const db = await JSONFilePreset<string[]>('./searchHistoryDB.json', defaultData)
   return db
 }
 
