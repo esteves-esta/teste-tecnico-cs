@@ -1,4 +1,6 @@
-[functions]
-  external_node_modules = ["express"]
-  node_bundler = "esbuild"
-
+[[redirects]]
+  from = "https://gerenciador-projetos-teste.netlify.app/api/*"
+  to = "https://netlify-functions--gerenciador-projetos-teste.netlify.app/api/:splat"
+  status = 200
+  force = true # COMMENT: ensure that we always redirect
+  headers = {X-From = "Netlify"}
