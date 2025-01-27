@@ -6,7 +6,7 @@ import { storeToRefs } from 'pinia'
 if (import.meta.env.MODE === "development")
   http.defaults.baseURL = "http://localhost:8888/api/"
 else
-  http.defaults.baseURL = `"https://netlify-functions--gerenciador-projetos-teste.netlify.app/api/`
+  http.defaults.baseURL = `${window.location.origin}/api/`
 
 export function createHttp() {
   const toastStore = useToast()
