@@ -14,9 +14,14 @@ const { progress } = storeToRefs(useProgress())
     />
     <VisuallyHidden>Carregando...</VisuallyHidden>
   </ProgressRoot>
+  <div :class="classes.placeholder" v-else></div>
 </template>
 
 <style lang="css" module="classes">
+.placeholder {
+  width: 100%;
+  height: var(--progress-height);
+}
 .ProgressRoot {
   position: relative;
   overflow: hidden;
