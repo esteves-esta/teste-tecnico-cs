@@ -1,6 +1,6 @@
 import http from '@/config/https';
 
-const API_ROUTE = "searchHistory";
+const API_ROUTE = "search-history";
 
 async function save(query: string) {
   try {

@@ -38,3 +38,6 @@ todo.md
 explain.json
 audit.json
 lint.md
+
+# Local Netlify folder
+.netlify

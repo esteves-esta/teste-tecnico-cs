@@ -3,7 +3,7 @@ import { useToast } from '@/stores/toast'
 // import { useToast } from '@/stores/progress'
 
 if (import.meta.env.MODE === "development")
-  http.defaults.baseURL = "http://localhost:3000/api/"
+  http.defaults.baseURL = "http://localhost:8888/api/"
 else
   http.defaults.baseURL = `${window.location.origin}/.netlify/functions/api/`
 
