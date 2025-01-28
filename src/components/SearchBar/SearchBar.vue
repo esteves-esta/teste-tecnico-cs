@@ -122,6 +122,7 @@ function searchItem(item: string) {
   line-height: calc(24rem / 16);
   font-weight: 400;
   color: var(--color-primary-dark);
+  background-color: var(--white);
   &::placeholder {
     color: var(--color-hr);
   }
