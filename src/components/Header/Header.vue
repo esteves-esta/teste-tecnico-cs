@@ -4,8 +4,13 @@ import Icon from '@/components/Icon/Icon.vue'
 import VisuallyHidden from '@/components/VisuallyHidden/VisuallyHidden.vue'
 import { useSearch } from '@/stores/search'
 import router from '@/router'
+import { useRouter } from 'vue-router'
+import { computed } from 'vue'
 
 const searchStore = useSearch()
+const route = useRouter()
+
+const isHomePage = computed(() => route.currentRoute.value.name === 'home')
 
 router.beforeEach((to) => {
   if (searchStore.searchIsVisible && to.name !== 'home') {
@@ -20,7 +25,7 @@ router.beforeEach((to) => {
     <SearchBar v-if="searchStore.searchIsVisible" />
     <template v-else>
       <img alt="App logo" :class="classes.logo" src="@/assets/logo.svg" />
-      <button :class="classes.search_btn" @click="searchStore.toogleSearch">
+      <button v-if="isHomePage" :class="classes.search_btn" @click="searchStore.toogleSearch">
         <Icon name="Search" :size="18" :stroke_width="2">
           <VisuallyHidden>Pesquisar</VisuallyHidden>
         </Icon>
