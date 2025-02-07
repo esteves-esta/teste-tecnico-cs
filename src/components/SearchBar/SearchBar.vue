@@ -59,7 +59,7 @@ function searchItem(item: string) {
         :class="classes.search_input"
       />
     </label>
-    <div :class="classes.history">
+    <div :class="classes.history" v-if="history.length">
       <ul>
         <li v-for="item in history" :key="item">
           <button :class="classes.history_item_btn" @click="() => searchItem(item)">
