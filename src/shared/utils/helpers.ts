@@ -1,22 +1,21 @@
 export function debounce(handlerFn: () => void, delay: number) {
-  let timeoutid = null;
+  let timeoutid = null
   if (timeoutid) {
     clearTimeout(timeoutid)
-    timeoutid = null;
+    timeoutid = null
   }
 
   const timeout = window.setTimeout(() => {
-    handlerFn();
+    handlerFn()
   }, delay)
 
-  timeoutid = timeout;
+  timeoutid = timeout
   return timeoutid
 }
 
-
 export function getHighlightedHtml(name: string, comparingString: string) {
   if (comparingString === '') {
-    return name
+    return { parts: [], highlightedIndex: [], name }
   }
 
   const highlight = comparingString.trim()
@@ -29,11 +28,17 @@ export function getHighlightedHtml(name: string, comparingString: string) {
 
   const parts = name.split(regex)
 
-  let nameHighlighted = ''
-  parts
-    .filter((part) => part)
-    .forEach((part) => {
-      nameHighlighted += regex.test(part) ? `<strong>${part}</strong>` : `${part}`
-    })
-  return `${nameHighlighted}`
+  const highlightedIndex: number[] = []
+
+  const filtered = parts.filter((part) => part)
+
+  filtered.forEach((part, index) => {
+    if (regex.test(part)) highlightedIndex.push(index)
+  })
+
+  return {
+    parts: filtered,
+    highlightedIndex,
+    name: '',
+  }
 }

@@ -27,19 +27,19 @@ watch(
   () => searchStore.query,
   () => {
     if (searchStore.query && searchStore.query.length >= 3) {
-      SearchService.save(searchStore.query)
-
-      debounce(() => {
-        refreshPage()
-      }, 500)
-    } else {
-      if (!searchStore.query)
-        debounce(() => {
-          refreshPage()
-        }, 500)
+      debounceRefresh(() => SearchService.save(searchStore.query))
     }
+
+    if (searchStore.query === '') debounceRefresh()
   },
 )
+
+function debounceRefresh(handler?: () => void) {
+  debounce(() => {
+    if (handler) handler()
+    refreshPage()
+  }, 1000 * 1.5)
+}
 
 function refreshPage() {
   projectsList.value = ProjectService.list({

@@ -67,7 +67,7 @@ function getNameWithHighlight() {
   const name = project.name
   const query = searchStore.query
   if (query.length >= 3) return getHighlightedHtml(name, query)
-  return name
+  return { parts: [], highlightedIndex: [], name }
 }
 </script>
 
@@ -82,7 +82,17 @@ function getNameWithHighlight() {
       </div>
     </div>
     <div :class="classes.info_container">
-      <h2 v-html="getNameWithHighlight()"></h2>
+      <h2>
+        <span v-if="getNameWithHighlight().parts.length === 0">{{
+          getNameWithHighlight().name
+        }}</span>
+        <template v-for="(part, index) in getNameWithHighlight().parts" :key="index">
+          <strong v-if="getNameWithHighlight().highlightedIndex.includes(index)">{{ part }}</strong>
+          <template v-else>
+            {{ part }}
+          </template>
+        </template>
+      </h2>
       <p>
         <strong>Cliente:</strong>
         {{ project.client }}
@@ -128,10 +138,11 @@ function getNameWithHighlight() {
 h2 {
   font-size: calc(20rem / 16);
   color: var(--color-secondary);
-  strong {
-    background: var(--color-accent);
-    color: var(--white);
-  }
+}
+
+h2 strong {
+  background: var(--color-accent);
+  color: var(--white);
 }
 
 .info_container {

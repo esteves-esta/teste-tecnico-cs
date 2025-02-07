@@ -35,14 +35,13 @@ button {
   align-items: center;
   justify-content: center;
   box-shadow: 0 2px 10px var(--black-a7);
+  cursor: pointer;
 }
+.toggle:focus svg,
 .toggle:hover svg {
   fill: var(--color-accent);
 }
 .toggle[data-state='on'] svg {
   fill: var(--color-accent);
-}
-.toggle:focus {
-  box-shadow: var(--box-shadow-focus);
 }
 </style>

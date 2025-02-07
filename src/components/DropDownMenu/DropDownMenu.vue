@@ -110,7 +110,9 @@ const { menu_items, label } = defineProps<Props>()
   cursor: pointer;
 }
 
+.icon_button:hover,
 .icon_button:focus {
+  color: var(--color-primary-dark);
   box-shadow: var(--box-shadow-focus);
 }
 
