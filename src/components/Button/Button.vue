@@ -44,9 +44,6 @@ const size = computed(() => (variant === 'link' ? 16 : 24))
   transition: background 750ms ease-in;
   cursor: pointer;
 }
-.button:focus {
-  box-shadow: var(--box-shadow);
-}
 
 .filled {
   background: var(--button-color);
@@ -69,6 +66,14 @@ const size = computed(() => (variant === 'link' ? 16 : 24))
 
 .button.disabled {
   --button-color: var(--color-primary-light);
+}
+
+.button:not(.link):focus {
+  box-shadow: var(--box-shadow);
+}
+
+.link:focus {
+  --button-color: var(--color-primary-dark);
 }
 
 @media (hover: hover) and (pointer: fine) {
